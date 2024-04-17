@@ -107,7 +107,7 @@
 					/>
 
 					<RouterLink
-						to="#"
+						to="/profile"
 						class="text-black ml-2 hover:text-rose-400"
 						>Profile</RouterLink
 					>
