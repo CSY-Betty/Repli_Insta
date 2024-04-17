@@ -12,8 +12,8 @@
 					>Repli Insta</RouterLink
 				>
 			</div>
-			<div class="flex flex-col w-9/12 h-full mt-4">
-				<div class="flex items-center">
+			<div class="flex flex-col w-9/12 h-full mt-10 gap-10 px-8">
+				<div class="flex">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -31,7 +31,7 @@
 
 					<RouterLink
 						to="/explore"
-						class="text-black ml-6 hover:text-rose-400 mt-8"
+						class="text-black ml-2 hover:text-rose-400"
 						>Search</RouterLink
 					>
 				</div>
@@ -52,7 +52,7 @@
 					</svg>
 					<RouterLink
 						to="/explore"
-						class="text-black ml-6 hover:text-rose-400 mt-8"
+						class="text-black ml-2 hover:text-rose-400"
 						>Explore</RouterLink
 					>
 				</div>
@@ -74,7 +74,7 @@
 
 					<RouterLink
 						to="/explore"
-						class="text-black ml-6 hover:text-rose-400 mt-8"
+						class="text-black ml-2 hover:text-rose-400"
 						>Messages</RouterLink
 					>
 				</div>
@@ -96,7 +96,7 @@
 
 					<RouterLink
 						to="/explore"
-						class="text-black ml-6 hover:text-rose-400 mt-8"
+						class="text-black ml-2 hover:text-rose-400"
 						>Create</RouterLink
 					>
 				</div>
@@ -118,22 +118,22 @@
 
 					<RouterLink
 						to="/explore"
-						class="text-black ml-6 hover:text-rose-400 mt-8"
+						class="text-black ml-2 hover:text-rose-400"
 						>Profile</RouterLink
 					>
 				</div>
-				<div class="flex items-center relative flex-col">
-					<RouterLink
-						to="/signup"
-						class="text-black ml-6 hover:text-rose-400 mt-8"
-						>Sign up</RouterLink
-					>
-					<RouterLink
-						to="/signin"
-						class="text-black ml-6 hover:text-rose-400 mt-8"
-						>Sign in</RouterLink
-					>
-				</div>
+			</div>
+			<div class="flex items-center relative flex-col mb-10">
+				<RouterLink
+					to="/signup"
+					class="text-black ml-6 hover:text-rose-400 mt-8"
+					>Sign up</RouterLink
+				>
+				<RouterLink
+					to="/signin"
+					class="text-black ml-6 hover:text-rose-400 mt-8"
+					>Sign in</RouterLink
+				>
 			</div>
 		</div>
 	</nav>
