@@ -23,7 +23,7 @@
 							<input
 								type="email"
 								id="email"
-								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
 								placeholder="your@email.com"
 								required
 							/>
@@ -37,7 +37,7 @@
 							<input
 								type="password"
 								id="password"
-								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
 								placeholder="Enter your password"
 								required
 							/>
@@ -46,7 +46,7 @@
 						<button
 							onclick="alert('hello')"
 							type="submit"
-							class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
 						>
 							Sign up
 						</button>
@@ -88,7 +88,7 @@
 						</a>
 						<a
 							class="mb-3 flex w-full items-center justify-center rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-white shadow-info-3 transition duration-150 ease-in-out hover:bg-info-accent-300 hover:shadow-info-2 focus:bg-info-accent-300 focus:shadow-info-2 focus:outline-none focus:ring-0 active:bg-info-600 active:shadow-info-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-							style="background-color: #55acee"
+							style="background-color: #e72929"
 							href="#!"
 							role="button"
 							data-twe-ripple-init
@@ -100,12 +100,34 @@
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 512 512"
+									x="0px"
+									y="0px"
+									width="100"
+									height="100"
+									viewBox="0,0,256,256"
 								>
-									<!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. -->
-									<path
-										d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-									/>
+									<g
+										fill="#ffffff"
+										fill-rule="nonzero"
+										stroke="none"
+										stroke-width="1"
+										stroke-linecap="butt"
+										stroke-linejoin="miter"
+										stroke-miterlimit="10"
+										stroke-dasharray=""
+										stroke-dashoffset="0"
+										font-family="none"
+										font-weight="none"
+										font-size="none"
+										text-anchor="none"
+										style="mix-blend-mode: normal"
+									>
+										<g transform="scale(5.12,5.12)">
+											<path
+												d="M25.99609,48c-12.68359,0 -23.00391,-10.31641 -23.00391,-23c0,-12.68359 10.32031,-23 23.00391,-23c5.74609,0 11.24609,2.12891 15.49219,5.99609l0.77344,0.70703l-7.58594,7.58594l-0.70312,-0.60156c-2.22656,-1.90625 -5.05859,-2.95703 -7.97656,-2.95703c-6.76562,0 -12.27344,5.50391 -12.27344,12.26953c0,6.76563 5.50781,12.26953 12.27344,12.26953c4.87891,0 8.73438,-2.49219 10.55078,-6.73828h-11.55078v-10.35547l22.55078,0.03125l0.16797,0.79297c1.17578,5.58203 0.23438,13.79297 -4.53125,19.66797c-3.94531,4.86328 -9.72656,7.33203 -17.1875,7.33203z"
+											></path>
+										</g>
+									</g>
 								</svg>
 							</span>
 							Continue with Google
