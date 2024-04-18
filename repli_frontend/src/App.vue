@@ -73,7 +73,7 @@
 					</svg>
 
 					<RouterLink
-						to="#"
+						to="/messages"
 						class="text-black ml-2 hover:text-rose-400"
 						>Messages</RouterLink
 					>
@@ -102,7 +102,7 @@
 				</div>
 				<div class="flex items-center">
 					<img
-						src="https://i.pravatar.cc/30"
+						src="https://i.pravatar.cc/30?img=29"
 						class="w-6 h-6 rounded-full"
 					/>
 
