@@ -1,3 +1,14 @@
+<script>
+import PeopleYouMayKnow from '@/components/PeopleYouMayKnow.vue';
+
+export default {
+	name: 'SearchView',
+	components: {
+		PeopleYouMayKnow,
+	},
+};
+</script>
+
 <template>
 	<div class="w-screen mt-6 flex flex-col">
 		<div class="pb-2">
@@ -46,24 +57,7 @@
 		<div
 			class="container mx-auto overflow-y-auto flex flex-col items-center"
 		>
-			<button
-				class="max-w-md px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black"
-			>
-				<img
-					src="https://i.pravatar.cc/150?img=29"
-					class="w-16 aspect-square rounded-full"
-				/>
-				<p class="ml-2 text-xl">Sara jen</p>
-			</button>
-			<button
-				class="max-w-md px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black"
-			>
-				<img
-					src="https://i.pravatar.cc/150?img=30"
-					class="w-16 aspect-square rounded-full"
-				/>
-				<p class="ml-2 text-xl">Sara Vanila</p>
-			</button>
+			<PeopleYouMayKnow />
 		</div>
 	</div>
 </template>
