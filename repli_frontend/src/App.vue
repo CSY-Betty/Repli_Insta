@@ -30,7 +30,7 @@
 					</svg>
 
 					<RouterLink
-						to="#"
+						to="/search"
 						class="text-black ml-2 hover:text-rose-400"
 						>Search</RouterLink
 					>
