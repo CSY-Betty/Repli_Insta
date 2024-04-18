@@ -1,5 +1,5 @@
 <template>
-	<div class="flex-col justify-center w-full mt-6 mx-40">
+	<div class="flex-col justify-center w-full mt-6 px-40 overflow-y-auto">
 		<header class="w-8/12 h-40 flex justify-around">
 			<img
 				src="https://i.pravatar.cc/100?img=29"
