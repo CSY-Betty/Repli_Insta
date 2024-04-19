@@ -114,11 +114,11 @@
 				</div>
 			</div>
 			<div class="flex items-center relative flex-col mb-10">
-				<RouterLink
+				<!-- <RouterLink
 					to="/signup"
 					class="text-black ml-6 hover:text-rose-400 mt-8"
 					>Sign up</RouterLink
-				>
+				> -->
 				<RouterLink
 					to="/signin"
 					class="text-black ml-6 hover:text-rose-400 mt-8"
