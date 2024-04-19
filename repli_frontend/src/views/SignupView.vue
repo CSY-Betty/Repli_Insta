@@ -18,6 +18,20 @@
 							<label
 								for="email"
 								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+								>Name</label
+							>
+							<input
+								type="text"
+								id="name"
+								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
+								placeholder="your name"
+								required
+							/>
+						</div>
+						<div class="mb-4">
+							<label
+								for="email"
+								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
 								>Email Address</label
 							>
 							<input
@@ -50,6 +64,11 @@
 						>
 							Sign up
 						</button>
+						<RouterLink
+							to="/signin"
+							class="text-xs text-black hover:text-rose-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+							>Already have an account?</RouterLink
+						>
 						<!-- Divider -->
 						<div
 							class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 dark:before:border-neutral-500 dark:after:border-neutral-500"
