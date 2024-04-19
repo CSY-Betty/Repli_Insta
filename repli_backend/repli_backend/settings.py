@@ -32,6 +32,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# 使用 account.User 作為 default user model
+AUTH_USER_MODEL = "account.User"
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
@@ -48,11 +51,11 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173/",
+    "http://localhost:5173",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173/",
+    "http://localhost:5173",
 ]
 
 
@@ -63,6 +66,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "account",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
