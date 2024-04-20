@@ -1,3 +1,67 @@
+<script>
+import axios from 'axios';
+import { useUserStore } from '@/stores/user.js';
+
+export default {
+	setup() {
+		const userStore = useUserStore();
+
+		return {
+			userStore,
+		};
+	},
+	data() {
+		return {
+			form: {
+				email: '',
+				password: '',
+			},
+			errors: [],
+		};
+	},
+	methods: {
+		async submitForm() {
+			this.errors = [];
+
+			if (this.form.email === '') {
+				console.log('Your email is missing.');
+
+				this.errors.push('Your email is missing.');
+			}
+
+			if (this.form.password === '') {
+				this.errors.push('Your password is missing.');
+			}
+
+			if (this.errors.length === 0) {
+				await axios
+					.post('/api/login/', this.form)
+					.then((response) => {
+						this.userStore.setToken(response.data);
+
+						axios.defaults.headers.common['Authorization'] =
+							'Bearer ' + response.data.access;
+					})
+					.catch((error) => {
+						console.log('error', error);
+					});
+
+				await axios
+					.get('/api/me/', this.form)
+					.then((response) => {
+						this.userStore.setUserInfo(response.data);
+
+						this.$router.push('/explore');
+					})
+					.catch((error) => {
+						console.log('error', error);
+					});
+			}
+		},
+	},
+};
+</script>
+
 <template>
 	<section class="flex-1 min-w-0 overflow-auto">
 		<div class="flex items-center justify-center">
@@ -13,7 +77,7 @@
 					>
 						Welcome Back!
 					</h1>
-					<form action="#">
+					<form v-on:submit.prevent="submitForm">
 						<div class="mb-4">
 							<label
 								for="email"
@@ -23,6 +87,7 @@
 							<input
 								type="email"
 								id="email"
+								v-model="form.email"
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
 								placeholder="your@email.com"
 								required
@@ -37,6 +102,7 @@
 							<input
 								type="password"
 								id="password"
+								v-model="form.password"
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
 								placeholder="Enter your password"
 								required
@@ -68,7 +134,6 @@
 							>
 						</div>
 						<button
-							onclick="alert('hello')"
 							type="submit"
 							class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
 						>
@@ -156,6 +221,14 @@
 							</span>
 							Continue with Google
 						</a>
+						<!-- error handling -->
+						<template v-if="errors.length > 0">
+							<div class="bg-red-300 text-white rounded-lg p-6">
+								<p v-for="error in errors" v-bind:key="error">
+									{{ error }}
+								</p>
+							</div>
+						</template>
 					</form>
 				</div>
 			</div>
