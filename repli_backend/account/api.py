@@ -9,6 +9,13 @@ from rest_framework.decorators import (
 from .forms import SignupForm
 
 
+@api_view(["GET"])
+def me(request):
+    return JsonResponse(
+        {"id": request.user.id, "name": request.user.name, "email": request.user.email}
+    )
+
+
 # Set the 'authentication_classes' and 'permission_classes' decorators to be empty so that we can access this view without being authenticated.
 @api_view(["POST"])
 @authentication_classes([])
