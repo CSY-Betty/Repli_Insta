@@ -1,4 +1,12 @@
-<script setup></script>
+<script>
+import Toast from '@/components/Toast.vue';
+
+export default {
+	components: {
+		Toast,
+	},
+};
+</script>
 
 <template>
 	<nav class="bg-white w-56 flex-none border-r">
@@ -128,4 +136,6 @@
 		</div>
 	</nav>
 	<RouterView />
+
+	<Toast />
 </template>
