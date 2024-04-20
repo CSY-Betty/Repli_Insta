@@ -1,7 +1,89 @@
+<script>
+import axios from 'axios';
+import { useToastStore } from '@/stores/toast.js';
+
+export default {
+	setup() {
+		const toastStore = useToastStore();
+		return {
+			toastStore,
+		};
+	},
+
+	data() {
+		return {
+			form: {
+				email: '',
+				name: '',
+				password1: '',
+				password2: '',
+			},
+			errors: [],
+		};
+	},
+	methods: {
+		submitForm() {
+			this.errors = [];
+
+			if (this.form.name === '') {
+				console.log('Your name is missing.');
+				this.errors.push('Your name is missing.');
+			}
+
+			if (this.form.email === '') {
+				console.log('Your email is missing.');
+
+				this.errors.push('Your email is missing.');
+			}
+
+			if (this.form.password1 === '') {
+				this.errors.push('Your password is missing.');
+			}
+
+			if (this.form.password1 !== this.form.password2) {
+				this.errors.push('The password does not match');
+			}
+
+			if (this.errors.length === 0) {
+				axios
+					.post('/api/signup/', this.form)
+					.then((response) => {
+						if (response.data.message === 'success') {
+							console.log('success');
+							this.toastStore.showToast(
+								5000,
+								'The user is registered. Please log in',
+								'bg-emerald-500'
+							);
+
+							this.form.email = '';
+							this.form.name = '';
+							this.form.password1 = '';
+							this.form.password2 = '';
+						} else {
+							console.log(
+								'response.data.message: ',
+								response.data.message
+							);
+							this.toastStore.showToast(
+								5000,
+								'Something went wrong. Please try again',
+								'bg-red-300'
+							);
+						}
+					})
+					.catch((error) => {
+						console.log('error', error);
+					});
+			}
+		},
+	},
+};
+</script>
+
 <template>
 	<section class="flex-1 min-w-0 overflow-auto">
 		<div class="flex items-center justify-center">
-			<!-- component -->
 			<div
 				class="min-h-screen flex items-center justify-center w-full dark:bg-gray-950"
 			>
@@ -13,15 +95,18 @@
 					>
 						Welcome!
 					</h1>
-					<form action="#">
+
+					<!-- signup form -->
+					<form v-on:submit.prevent="submitForm">
 						<div class="mb-4">
 							<label
-								for="email"
+								for="name"
 								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
 								>Name</label
 							>
 							<input
 								type="text"
+								v-model="form.name"
 								id="name"
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
 								placeholder="your name"
@@ -36,6 +121,7 @@
 							>
 							<input
 								type="email"
+								v-model="form.email"
 								id="email"
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
 								placeholder="your@email.com"
@@ -44,26 +130,45 @@
 						</div>
 						<div class="mb-4">
 							<label
-								for="password"
+								for="password1"
 								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
 								>Password</label
 							>
 							<input
 								type="password"
-								id="password"
+								v-model="form.password1"
+								id="password1"
+								autocomplete="on"
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
 								placeholder="Enter your password"
 								required
 							/>
 						</div>
 
+						<div class="mb-4">
+							<label
+								for="password2"
+								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+								>Repeat password</label
+							>
+							<input
+								type="password"
+								v-model="form.password2"
+								id="password2"
+								autocomplete="on"
+								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
+								placeholder="Repeat your password"
+								required
+							/>
+						</div>
+
 						<button
-							onclick="alert('hello')"
-							type="submit"
 							class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
 						>
 							Sign up
 						</button>
+
+						<!-- Sign in link -->
 						<RouterLink
 							to="/signin"
 							class="text-xs text-black hover:text-rose-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
@@ -151,6 +256,15 @@
 							</span>
 							Continue with Google
 						</a>
+
+						<!-- error handling -->
+						<template v-if="errors.length > 0">
+							<div class="bg-red-300 text-white rounded-lg p-6">
+								<p v-for="error in errors" v-bind:key="error">
+									{{ error }}
+								</p>
+							</div>
+						</template>
 					</form>
 				</div>
 			</div>
