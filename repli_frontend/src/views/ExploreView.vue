@@ -2,9 +2,17 @@
 import axios from 'axios';
 
 import PostsList from '@/components/PostsList.vue';
+import { usePostStore } from '@/stores/post';
 
 export default {
 	name: 'ExploreView',
+	setup() {
+		const postStore = usePostStore();
+
+		return {
+			postStore,
+		};
+	},
 	components: {
 		PostsList,
 	},
@@ -41,5 +49,6 @@ export default {
 		<ul class="grid grid-cols-3 gap-1">
 			<PostsList />
 		</ul>
+		<div>{{ postStore.posts }}</div>
 	</div>
 </template>
