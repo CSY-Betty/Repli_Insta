@@ -2,18 +2,34 @@
 import Toast from '@/components/Toast.vue';
 import { useUserStore } from '@/stores/user.js';
 import axios from 'axios';
+import { ref } from 'vue';
+
+// try to add PostCreae pop-up
+import PostCreate from '@/components/PostCreate.vue';
 
 export default {
 	setup() {
 		const userStore = useUserStore();
+		const popupTriggers = ref({
+			buttonTrigger: false,
+		});
+
+		const TogglePopup = (trigger) => {
+			popupTriggers.value[trigger] = !popupTriggers.value[trigger];
+		};
 
 		return {
 			userStore,
+			PostCreate,
+			popupTriggers,
+			TogglePopup,
 		};
 	},
 	components: {
 		Toast,
+		PostCreate,
 	},
+
 	beforeCreate() {
 		this.userStore.initStore();
 
@@ -122,11 +138,12 @@ export default {
 						/>
 					</svg>
 
-					<RouterLink
-						to="#"
+					<button
 						class="text-black ml-2 hover:text-rose-400"
-						>Create</RouterLink
+						v-on:click="() => TogglePopup('buttonTrigger')"
 					>
+						Create
+					</button>
 				</div>
 				<div
 					class="flex items-center"
@@ -143,6 +160,10 @@ export default {
 						>Profile</RouterLink
 					>
 				</div>
+				<PostCreate
+					v-if="popupTriggers.buttonTrigger"
+					v-bind:TogglePopup="() => TogglePopup('buttonTrigger')"
+				/>
 			</div>
 			<div class="flex items-center relative flex-col mb-10">
 				<!-- <RouterLink
