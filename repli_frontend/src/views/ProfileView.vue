@@ -1,27 +1,40 @@
 <script>
 import axios from 'axios';
 import PostsList from '@/components/PostsList.vue';
+import { useUserStore } from '@/stores/user';
 
 export default {
 	name: 'ProfileView',
+	setup() {
+		const userStore = useUserStore();
+		return {
+			userStore,
+		};
+	},
 	components: {
 		PostsList,
 	},
 	data() {
 		return {
 			posts: [],
+			user: {},
 		};
 	},
 	mounted() {
 		this.getPost();
 	},
+
+	// updated() {
+	// 	this.getPost();
+	// },
 	methods: {
 		getPost() {
 			axios
-				.get('/api/posts')
+				.get(`/api/posts/profile/${this.$route.params.id}`)
 				.then((response) => {
-					console.log('data', response.data);
-					this.posts = response.data;
+					console.log('data', response.data.user);
+					this.posts = response.data.posts;
+					this.user = response.data.user;
 				})
 				.catch((error) => {
 					console.log('error', error);
@@ -41,9 +54,10 @@ export default {
 			<div class="my-8 flex flex-col justify-around">
 				<div class="flex gap-6 items-center justify-between">
 					<p>
-						<strong>Fack Name</strong>
+						<strong>{{ user.name }}</strong>
 					</p>
 					<button
+						v-if="userStore.user.id === user.id"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
 					>
 						Edit profile
