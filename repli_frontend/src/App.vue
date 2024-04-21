@@ -84,7 +84,7 @@ export default {
 						>Explore</RouterLink
 					>
 				</div>
-				<div class="flex">
+				<div class="flex" v-if="userStore.user.isAuthenticated">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -106,7 +106,7 @@ export default {
 						>Messages</RouterLink
 					>
 				</div>
-				<div class="flex">
+				<div class="flex" v-if="userStore.user.isAuthenticated">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -128,7 +128,10 @@ export default {
 						>Create</RouterLink
 					>
 				</div>
-				<div class="flex items-center">
+				<div
+					class="flex items-center"
+					v-if="userStore.user.isAuthenticated"
+				>
 					<img
 						src="https://i.pravatar.cc/30?img=29"
 						class="w-6 h-6 rounded-full"
@@ -149,8 +152,15 @@ export default {
 				> -->
 				<RouterLink
 					to="/signin"
+					v-if="!userStore.user.isAuthenticated"
 					class="text-black ml-6 hover:text-rose-400 mt-8"
 					>Sign in</RouterLink
+				>
+				<RouterLink
+					to="#"
+					v-else="!userStore.user.isAuthenticated"
+					class="text-black ml-6 hover:text-rose-400 mt-8"
+					>Sign out</RouterLink
 				>
 			</div>
 		</div>
