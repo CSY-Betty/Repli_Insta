@@ -34,7 +34,7 @@ const router = createRouter({
 			component: MessagesView,
 		},
 		{
-			path: '/profile',
+			path: '/profile/:id',
 			name: 'profile',
 			component: ProfileView,
 		},

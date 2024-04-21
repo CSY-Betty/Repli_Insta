@@ -155,7 +155,10 @@ export default {
 					/>
 
 					<RouterLink
-						to="/profile"
+						:to="{
+							name: 'profile',
+							params: { id: userStore.user.id },
+						}"
 						class="text-black ml-2 hover:text-rose-400"
 						>Profile</RouterLink
 					>
