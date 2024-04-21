@@ -37,6 +37,9 @@ export default {
 				});
 		},
 	},
+	beforeCreate() {
+		this.postStore.initStore();
+	},
 };
 </script>
 <template>
@@ -49,6 +52,8 @@ export default {
 		<ul class="grid grid-cols-3 gap-1">
 			<PostsList />
 		</ul>
-		<div>{{ postStore.posts }}</div>
+		<ul class="grid grid-cols-3 gap-1">
+			<div v-for="post in postStore.posts">{{ post.body }}</div>
+		</ul>
 	</div>
 </template>
