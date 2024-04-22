@@ -23,10 +23,15 @@ export default {
 	mounted() {
 		this.getPost();
 	},
-
-	// updated() {
-	// 	this.getPost();
-	// },
+	watch: {
+		'$route.params.id': {
+			handler: function () {
+				this.getPost();
+			},
+			deep: true,
+			immediate: true,
+		},
+	},
 	methods: {
 		getPost() {
 			axios
