@@ -12,6 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
 class FriendshipRequestSerializer(serializers.ModelSerializer):
     created_by = UserSerializer(read_only=True)
 
-    class Meat:
-        model: FriendshipRequest
+    class Meta:
+        model = FriendshipRequest
         fields = ("id", "created_by")
