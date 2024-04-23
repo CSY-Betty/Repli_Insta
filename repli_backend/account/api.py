@@ -7,6 +7,7 @@ from rest_framework.decorators import (
 )
 
 from .forms import SignupForm
+from .models import User, FriendshipRequest
 
 
 @api_view(["GET"])
@@ -41,3 +42,12 @@ def signup(request):
         # message = form.errors.as_json()
 
     return JsonResponse({"message": message})
+
+
+@api_view(["POST"])
+def send_friendship_request(request, pk):
+    user = User.objects.get(pk=pk)
+
+    friendship_request = FriendshipRequest(create_for=user, create_by=request.user)
+
+    return JsonResponse({"friendship request": "friendship request created"})
