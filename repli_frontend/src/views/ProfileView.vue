@@ -48,7 +48,7 @@ export default {
 		},
 		sendFriendshipRequest() {
 			axios
-				.post(`/api/friends/request/${this.$route.params.id}/`)
+				.post(`/api/friends/${this.$route.params.id}/request/`)
 				.then((response) => {
 					console.log('data', response.data);
 				})
