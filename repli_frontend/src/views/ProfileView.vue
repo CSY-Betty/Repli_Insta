@@ -2,6 +2,7 @@
 import axios from 'axios';
 import PostsList from '@/components/PostsList.vue';
 import { useUserStore } from '@/stores/user';
+import { RouterLink } from 'vue-router';
 
 export default {
 	name: 'ProfileView',
@@ -89,7 +90,10 @@ export default {
 
 				<div class="flex gap-6 mt-4">
 					<p>17 posts</p>
-					<p>17 friends</p>
+					<RouterLink
+						:to="{ name: 'friends', params: { id: user.id } }"
+						>17 friends</RouterLink
+					>
 				</div>
 			</div>
 		</header>
