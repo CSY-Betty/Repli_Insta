@@ -106,7 +106,7 @@ export default {
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
 								placeholder="Enter your password"
 								required
-							/>
+							/>repliinsta
 							<a
 								href="#"
 								class="text-xs text-gray-600 hover:text-rose-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
