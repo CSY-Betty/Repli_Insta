@@ -8,6 +8,7 @@ from rest_framework.decorators import (
 
 from .forms import SignupForm
 from .models import User, FriendshipRequest
+from .serializers import UserSerializer, FriendshipRequestSerializer
 
 
 @api_view(["GET"])
@@ -42,6 +43,30 @@ def signup(request):
         # message = form.errors.as_json()
 
     return JsonResponse({"message": message})
+
+
+# 取得使用者的好友列表
+@api_view(["GET"])
+def friends(request, pk):
+    # 獲取特定的用戶資料
+    user = User.objects.get(pk=pk)
+    requests = []
+
+    # 如果發送請求者是帳戶使用者，取得帳戶使用者收到的好友請求
+    if user == request.user:
+        requests = FriendshipRequest.objects.filter(created_for=request.user)
+
+    # 獲取特定用戶的好友資料
+    friends = user.friends.all()
+
+    return JsonResponse(
+        {
+            "user": UserSerializer(user).data,
+            "friends": UserSerializer(friends, many=True).data,
+            "requests": FriendshipRequestSerializer(requests, many=True).data,
+        },
+        safe=False,
+    )
 
 
 @api_view(["POST"])
