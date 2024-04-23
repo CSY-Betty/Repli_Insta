@@ -45,6 +45,16 @@ export default {
 					console.log('error', error);
 				});
 		},
+		sendFriendshipRequest() {
+			axios
+				.post(`/api/friends/request/${this.$route.params.id}/`)
+				.then((response) => {
+					console.log('data', response.data);
+				})
+				.catch((error) => {
+					console.log('error', error);
+				});
+		},
 	},
 };
 </script>
@@ -67,12 +77,19 @@ export default {
 					>
 						Edit profile
 					</button>
+
+					<button
+						v-else="userStore.user.id === user.id"
+						@click="sendFriendshipRequest"
+						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
+					>
+						Invite friends
+					</button>
 				</div>
 
 				<div class="flex gap-6 mt-4">
 					<p>17 posts</p>
-					<p>17 followers</p>
-					<p>17 following</p>
+					<p>17 friends</p>
 				</div>
 			</div>
 		</header>
