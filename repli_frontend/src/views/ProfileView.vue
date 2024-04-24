@@ -3,13 +3,16 @@ import axios from 'axios';
 import PostsList from '@/components/PostsList.vue';
 import { useUserStore } from '@/stores/user';
 import { RouterLink } from 'vue-router';
+import { useToastStore } from '@/stores/toast';
 
 export default {
 	name: 'ProfileView',
 	setup() {
 		const userStore = useUserStore();
+		const toastStore = useToastStore();
 		return {
 			userStore,
+			toastStore,
 		};
 	},
 	components: {
@@ -18,7 +21,9 @@ export default {
 	data() {
 		return {
 			posts: [],
-			user: {},
+			user: {
+				id: null,
+			},
 		};
 	},
 	mounted() {
@@ -50,7 +55,19 @@ export default {
 			axios
 				.post(`/api/friends/${this.$route.params.id}/request/`)
 				.then((response) => {
-					console.log('data', response.data);
+					if (response.data.message == 'request already sent') {
+						this.toastStore.showToast(
+							5000,
+							'The request has already been sent!',
+							'bg-red-300'
+						);
+					} else {
+						this.toastStore.showToast(
+							5000,
+							'The request was sent!',
+							'bg-emerald-300'
+						);
+					}
 				})
 				.catch((error) => {
 					console.log('error', error);
@@ -92,7 +109,7 @@ export default {
 					<p>17 posts</p>
 					<RouterLink
 						:to="{ name: 'friends', params: { id: user.id } }"
-						>17 friends</RouterLink
+						>{{ user.friends_count }} friends</RouterLink
 					>
 				</div>
 			</div>
