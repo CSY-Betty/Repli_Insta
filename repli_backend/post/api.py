@@ -28,6 +28,7 @@ def post_list(request):
     return JsonResponse(serializer.data, safe=False)
 
 
+# 取得特定 profile 的 posts
 @api_view(["GET"])
 @authentication_classes([])
 @permission_classes([])
@@ -58,3 +59,14 @@ def post_create(request):
 
     else:
         return JsonResponse({"error": "create post error."})
+
+
+@api_view(["GET"])
+@authentication_classes([])
+@permission_classes([])
+def post_get(request, id):
+    post = Post.objects.get(pk=id)
+
+    serializer = PostSerializer(post)
+
+    return JsonResponse(serializer.data, safe=False)
