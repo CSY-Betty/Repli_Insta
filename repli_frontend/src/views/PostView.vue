@@ -12,7 +12,6 @@ export default {
 	},
 
 	mounted() {
-		console.log('当前网页的网址:', this.$route.params);
 		axios
 			.get(`/api/posts/post/${this.$route.params.id}/`)
 			.then((response) => {
@@ -23,6 +22,20 @@ export default {
 			.catch((error) => {
 				console.log('Get error', error);
 			});
+	},
+	methods: {
+		likePost(id) {
+			axios
+				.post(`/api/posts/${id}/like/`)
+				.then((response) => {
+					if (response.data.message == 'like created') {
+						this.post.likes_count += 1;
+					}
+				})
+				.catch((error) => {
+					console.log('Like error', error);
+				});
+		},
 	},
 };
 </script>
@@ -125,7 +138,7 @@ export default {
 					<hr />
 					<div class="flex my-2 items-center justify-between">
 						<div class="flex items-center">
-							<button class="ml-4">
+							<button @click="likePost(post.id)" class="ml-4">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -141,18 +154,9 @@ export default {
 									/>
 								</svg>
 							</button>
-							<!-- <button>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 24 24"
-									fill="currentColor"
-									class="w-8 h-8"
-								>
-									<path
-										d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
-									/>
-								</svg>
-							</button> -->
+							<span class="ml-2"
+								>{{ post.likes_count }} likes</span
+							>
 						</div>
 					</div>
 					<hr />
