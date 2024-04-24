@@ -15,9 +15,9 @@ export const useToastStore = defineStore({
 			this.classes = classes;
 			this.isVisible = true;
 
-			setTimeout(() => {
-				this.classes += '-translate-y-28';
-			}, 10);
+			// setTimeout(() => {
+			// 	this.classes += '-translate-y-28';
+			// }, 10);
 
 			setTimeout(() => {
 				this.classes = this.classes.replace('-translate-y-28', '');
