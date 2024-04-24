@@ -41,6 +41,13 @@ export default {
 			axios.defaults.headers.common['Authorization'] = '';
 		}
 	},
+	methods: {
+		logout() {
+			console.log('Log out');
+			this.userStore.removeToken();
+			this.$router.push('/');
+		},
+	},
 };
 </script>
 
@@ -180,12 +187,13 @@ export default {
 					class="text-black ml-6 hover:text-rose-400 mt-8"
 					>Sign in</RouterLink
 				>
-				<RouterLink
-					to="#"
+				<button
 					v-else="!userStore.user.isAuthenticated"
+					@click="logout"
 					class="text-black ml-6 hover:text-rose-400 mt-8"
-					>Sign out</RouterLink
 				>
+					Sign out
+				</button>
 			</div>
 		</div>
 	</nav>
