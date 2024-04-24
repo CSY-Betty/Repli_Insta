@@ -3,7 +3,6 @@ import axios from 'axios';
 
 import PostsList from '@/components/PostsList.vue';
 import { usePostStore } from '@/stores/post';
-import ShowPostOverlay from '@/components/ShowPostOverlay.vue';
 import { RouterLink } from 'vue-router';
 
 export default {
@@ -103,6 +102,4 @@ export default {
 			</li>
 		</ul>
 	</div>
-
-	<ShowPostOverlay />
 </template>
