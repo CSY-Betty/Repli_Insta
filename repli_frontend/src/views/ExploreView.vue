@@ -94,7 +94,9 @@ export default {
 										clip-rule="evenodd"
 									/>
 								</svg>
-								<p class="text-white"><strong>10</strong></p>
+								<p class="text-white">
+									<strong>{{ post.comments_count }}</strong>
+								</p>
 							</div>
 						</div>
 					</div>
