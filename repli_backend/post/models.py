@@ -18,6 +18,12 @@ class Comment(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ("created_at",)
+
+    def created_at_formatted(self):
+        return timesince(self.created_at)
+
 
 # Create your models here.
 class PostAttachment(models.Model):
