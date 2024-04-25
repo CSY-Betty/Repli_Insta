@@ -1,29 +1,40 @@
 <script>
 import axios from 'axios';
+import { comment } from 'postcss';
 import { RouterLink } from 'vue-router';
+import CommentItem from '@/components/CommentItem.vue';
 
 export default {
 	name: 'PostView',
+	components: {
+		CommentItem,
+	},
 	data() {
 		return {
 			post: {},
 			created_by: {},
+			body: '',
+			comments: [],
 		};
 	},
 
 	mounted() {
-		axios
-			.get(`/api/posts/post/${this.$route.params.id}/`)
-			.then((response) => {
-				console.log('post data', response.data);
-				this.post = response.data;
-				this.created_by = response.data.created_by;
-			})
-			.catch((error) => {
-				console.log('Get error', error);
-			});
+		this.getPostDetail();
 	},
 	methods: {
+		getPostDetail() {
+			axios
+				.get(`/api/posts/${this.$route.params.id}/`)
+				.then((response) => {
+					console.log('post data', response.data);
+					this.post = response.data;
+					this.created_by = response.data.created_by;
+					this.comments = response.data.comments;
+				})
+				.catch((error) => {
+					console.log('Get error', error);
+				});
+		},
 		likePost(id) {
 			axios
 				.post(`/api/posts/${id}/like/`)
@@ -34,6 +45,25 @@ export default {
 				})
 				.catch((error) => {
 					console.log('Like error', error);
+				});
+		},
+		submitComment() {
+			console.log('submitComment', this.body);
+
+			axios
+				.post(`/api/posts/${this.$route.params.id}/comment/`, {
+					body: this.body,
+				})
+				.then((response) => {
+					console.log('Comment data', response.data);
+
+					this.comments.push(response.data);
+					this.post.comments_count += 1;
+
+					this.body = '';
+				})
+				.catch((error) => {
+					console.log('Comment error', error);
 				});
 		},
 	},
@@ -92,7 +122,7 @@ export default {
 						<button>...</button>
 					</div>
 					<div class="overflow-y-auto h-[calc(100%-170px)]">
-						<div class="flex items-center justify-between p-3">
+						<div class="flex items-center justify-between p-3 mb-6">
 							<div class="flex items-center relative">
 								<img
 									class="absolute -top-1 rounded-full w-[38px] h-[38px]"
@@ -110,33 +140,17 @@ export default {
 								</div>
 							</div>
 						</div>
-						<div class="p-3">
-							<div class="flex items-center justify-between">
-								<div class="flex items-center">
-									<img
-										class="rounded-full w-[38px] h-[38px]"
-										src="https://picsum.photos/id/54/800/820"
-									/>
-									<div
-										class="ml-4 font-extrabold text-[15px]"
-									>
-										Name Here
-										<span
-											class="font-light text-gray-700 text-sm"
-											>Date here</span
-										>
-									</div>
-								</div>
-								<button>...</button>
-							</div>
-							<div class="text-[13px] pl-[55px]">
-								THIS COMMENT SECTION
-							</div>
+						<div
+							v-for="comment in comments"
+							v-bind:key="comment.id"
+							class="p-3"
+						>
+							<CommentItem v-bind:comment="comment" />
 						</div>
 						<!-- <div class="pb-16 md:hidden"></div> -->
 					</div>
 					<hr />
-					<div class="flex my-2 items-center justify-between">
+					<div class="flex my-2 items-center gap-4">
 						<div class="flex items-center">
 							<button @click="likePost(post.id)" class="ml-4">
 								<svg
@@ -158,12 +172,37 @@ export default {
 								>{{ post.likes_count }} likes</span
 							>
 						</div>
+						<div class="flex flex-row gap-1 items-center">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-8 h-8"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"
+								/>
+							</svg>
+
+							<p class="text-black">
+								{{ post.comments_count }} comments
+							</p>
+						</div>
 					</div>
 					<hr />
-					<form class="flex">
+					<form
+						v-on:submit.prevent="submitComment"
+						method="post"
+						class="flex"
+					>
 						<div class="px-4 w-11/12 bg-white">
 							<label for="comment"></label>
 							<textarea
+								v-model="body"
 								id="comment"
 								class="mt-2 px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none"
 								placeholder="Write a comment..."
