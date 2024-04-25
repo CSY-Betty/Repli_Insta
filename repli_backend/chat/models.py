@@ -13,7 +13,7 @@ class Conversation(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
 
-class ConcersationMessage(models.Model):
+class ConversationMessage(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     conversation = models.ForeignKey(
         Conversation, related_name="messages", on_delete=models.CASCADE
