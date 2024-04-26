@@ -101,12 +101,13 @@ export default {
 					<p>
 						<strong>{{ user.name }}</strong>
 					</p>
-					<button
+					<RouterLink
+						to="/profile/edit/"
 						v-if="userStore.user.id === user.id"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
 					>
 						Edit profile
-					</button>
+					</RouterLink>
 
 					<button
 						v-if="userStore.user.id !== user.id"
