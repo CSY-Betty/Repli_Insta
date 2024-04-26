@@ -19,6 +19,17 @@ from .serializers import (
 def conversation_list(request):
     conversations = Conversation.objects.filter(users__in=list([request.user]))
 
-    print(conversations)
+    serializer = ConversationSerializer(conversations, many=True)
 
-    return JsonResponse({"message": "conversation load success"})
+    return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(["GET"])
+def conversation_detail(request, pk):
+    conversation = Conversation.objects.filter(users__in=list([request.user])).get(
+        pk=pk
+    )
+
+    serializer = ConversationDetailSeriazlizer(conversation)
+
+    return JsonResponse(serializer.data, safe=False)
