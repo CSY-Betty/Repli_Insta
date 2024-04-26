@@ -14,6 +14,7 @@ export default {
 		return {
 			conversations: [],
 			activeConversation: {},
+			body: '',
 		};
 	},
 
@@ -21,6 +22,13 @@ export default {
 		this.getConversations();
 	},
 	methods: {
+		setActiveConversation(id) {
+			console.log('setActiveConversation', id);
+
+			this.activeConversation = id;
+			this.getMessages();
+		},
+
 		getConversations() {
 			console.log('getConversations');
 			axios
@@ -30,7 +38,7 @@ export default {
 					this.conversations = response.data;
 
 					if (this.conversations) {
-						this.activeConversation = this.conversations[0];
+						this.activeConversation = this.conversations[0].id;
 					}
 
 					this.getMessages();
@@ -42,10 +50,26 @@ export default {
 		getMessages() {
 			console.log('getMessages');
 			axios
-				.get(`/api/chat/${this.activeConversation.id}/`)
+				.get(`/api/chat/${this.activeConversation}/`)
 				.then((response) => {
 					console.log(response.data);
 					this.activeConversation = response.data;
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		sendMessage() {
+			console.log('sendMessages', this.body);
+
+			axios
+				.post(`/api/chat/${this.activeConversation.id}/send/`, {
+					body: this.body,
+				})
+				.then((response) => {
+					console.log(response.data);
+					this.activeConversation.messages.push(response.data);
+					this.body = '';
 				})
 				.catch((error) => {
 					console.log(error);
@@ -59,7 +83,8 @@ export default {
 		<article
 			v-for="conversation in conversations"
 			v-bind:key="conversation.id"
-			class="col-span-1 justify-center pt-6 overflow-y-auto border-r h-screen"
+			v-on:click="setActiveConversation(conversation.id)"
+			class="col-span-1 justify-c enter pt-6 overflow-y-auto border-r h-screen"
 		>
 			<template v-for="user in conversation.users" v-bind:key="user.id">
 				<button
@@ -90,13 +115,32 @@ export default {
 				</div>
 				<!-- Chat bubble -->
 				<div class="mt-2 row-span-8 overflow-y-auto">
-					<div
+					<template
 						v-for="message in activeConversation.messages"
 						v-bind:key="message.id"
 						class="grid gap-2"
 					>
 						<!-- Chat bubble sender -->
-						<div class="flex items-end gap-2.5 pl-4">
+						<div
+							v-if="message.created_by.id == userStore.user.id"
+							class="flex items-end gap-2.5 px-4 py-2 justify-end"
+						>
+							<div
+								class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-s-xl rounded-se-xl dark:bg-gray-700"
+							>
+								<p
+									class="text-sm font-normal py-2.5 text-gray-900 dark:text-white"
+								>
+									{{ message.body }}
+								</p>
+							</div>
+							<img
+								class="w-8 h-8 rounded-full"
+								src="https://i.pravatar.cc/150?img=30"
+								alt="Jese image"
+							/>
+						</div>
+						<div v-else class="flex items-end gap-2.5 pl-4 py-2">
 							<img
 								class="w-8 h-8 rounded-full"
 								src="https://i.pravatar.cc/150?img=30"
@@ -112,40 +156,25 @@ export default {
 								</p>
 							</div>
 						</div>
+
 						<!-- Chat bubble receiver -->
-						<div class="flex items-end gap-2.5 px-4 justify-end">
-							<div
-								class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-s-xl rounded-se-xl dark:bg-gray-700"
-							>
-								<p
-									class="text-sm font-normal py-2.5 text-gray-900 dark:text-white"
-								>
-									That's awesome. I think our users will
-									really appreciate the improvements.
-								</p>
-							</div>
-							<img
-								class="w-8 h-8 rounded-full"
-								src="https://i.pravatar.cc/150?img=30"
-								alt="Jese image"
-							/>
-						</div>
-					</div>
+					</template>
 				</div>
 				<!-- Message box -->
 				<div class="border-t pt-2">
-					<form class="px-10">
+					<form v-on:submit.prevent="sendMessage" class="px-10">
 						<div
 							class="flex items-center border border-gray-300 py-2 px-2 rounded-full"
 						>
-							<input
+							<textarea
+								v-model="body"
 								class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
 								type="text"
 								placeholder="Message..."
-							/>
+							></textarea>
 							<button
 								class="flex-shrink-0 bg-rose-400 hover:bg-rose-500 border-rose-400 hover:border-rose-500 text-sm border-4 text-white py-1 px-2 rounded-full"
-								type="button"
+								type="submit"
 							>
 								Send
 							</button>

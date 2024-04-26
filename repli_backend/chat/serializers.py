@@ -18,11 +18,11 @@ class ConversationMessageSeriazlizer(serializers.ModelSerializer):
     created_by = UserSerializer(read_only=True)
 
     class Meta:
-        model = ConversationSerializer
-        firlds = ("id", "sent_to", "created_by", "created_at_formatted", "body")
+        model = ConversationMessage
+        fields = ("id", "sent_to", "created_by", "created_at_formatted", "body")
 
 
-class ConversationDetailSeriazlizer(serializers.ModelSerializer):
+class ConversationDetailSerializer(serializers.ModelSerializer):
     messages = ConversationMessageSeriazlizer(read_only=True, many=True)
 
     class Meta:
