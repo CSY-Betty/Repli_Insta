@@ -73,6 +73,18 @@ export default {
 					console.log('error', error);
 				});
 		},
+		sendDirectMessage() {
+			console.log('sendDirectMessage');
+			axios
+				.get(`/api/chat/${this.$route.params.id}/get-or-create/`)
+				.then((response) => {
+					console.log(response.data);
+					this.$router.push('/messages');
+				})
+				.catch((error) => {
+					console.log('send error', error);
+				});
+		},
 	},
 };
 </script>
@@ -97,15 +109,23 @@ export default {
 					</button>
 
 					<button
-						v-else="userStore.user.id === user.id"
+						v-if="userStore.user.id !== user.id"
 						@click="sendFriendshipRequest"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
 					>
 						Invite friends
 					</button>
+
+					<button
+						v-if="userStore.user.id !== user.id"
+						@click="sendDirectMessage"
+						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
+					>
+						send Messages
+					</button>
 				</div>
 
-				<div class="flex gap-6 mt-4">
+				<div class="flex gap-6 mt-4" v-if="user.id">
 					<p>17 posts</p>
 					<RouterLink
 						:to="{ name: 'friends', params: { id: user.id } }"

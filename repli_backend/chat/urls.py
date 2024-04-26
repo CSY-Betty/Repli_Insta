@@ -10,4 +10,9 @@ urlpatterns = [
         api.conversation_send_message,
         name="conversation_send_message",
     ),
+    path(
+        "<uuid:user_pk>/get-or-create/",
+        api.conversation_get_or_create,
+        name="conversation_get_or_create",
+    ),
 ]
