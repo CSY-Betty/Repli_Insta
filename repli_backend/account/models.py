@@ -44,6 +44,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     friends = models.ManyToManyField("self")
     friends_count = models.IntegerField(default=0)
 
+    posts_count = models.IntegerField(default=0)
+
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -60,6 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     # 指定使用 email 當作 email
     EMAIL_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    def posts_count(self):
+        return self.posts.count()
 
 
 class FriendshipRequest(models.Model):

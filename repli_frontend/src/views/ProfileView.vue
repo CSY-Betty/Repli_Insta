@@ -126,7 +126,7 @@ export default {
 				</div>
 
 				<div class="flex gap-6 mt-4" v-if="user.id">
-					<p>17 posts</p>
+					<p>{{ user.posts_count }} posts</p>
 					<RouterLink
 						:to="{ name: 'friends', params: { id: user.id } }"
 						>{{ user.friends_count }} friends</RouterLink
