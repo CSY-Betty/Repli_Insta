@@ -81,23 +81,29 @@ export default {
 <template>
 	<main class="grid grid-cols-4 w-full">
 		<article
-			v-for="conversation in conversations"
-			v-bind:key="conversation.id"
-			v-on:click="setActiveConversation(conversation.id)"
 			class="col-span-1 justify-c enter pt-6 overflow-y-auto border-r h-screen"
 		>
-			<template v-for="user in conversation.users" v-bind:key="user.id">
-				<button
-					v-if="user.id !== userStore.user.id"
-					class="px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black focus:bg-gray-100"
+			<div
+				v-for="conversation in conversations"
+				v-bind:key="conversation.id"
+				v-on:click="setActiveConversation(conversation.id)"
+			>
+				<template
+					v-for="user in conversation.users"
+					v-bind:key="user.id"
 				>
-					<img
-						src="https://i.pravatar.cc/150?img=29"
-						class="w-16 aspect-square rounded-full"
-					/>
-					<p class="ml-2 text-xl">{{ user.name }}</p>
-				</button>
-			</template>
+					<button
+						v-if="user.id !== userStore.user.id"
+						class="px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black focus:bg-gray-100"
+					>
+						<img
+							src="https://i.pravatar.cc/150?img=29"
+							class="w-16 aspect-square rounded-full"
+						/>
+						<p class="ml-2 text-xl">{{ user.name }}</p>
+					</button>
+				</template>
+			</div>
 		</article>
 		<section class="col-span-3 pt-6 h-screen">
 			<div class="grid grid-rows-10 h-full">
@@ -110,7 +116,7 @@ export default {
 							src="https://i.pravatar.cc/150?img=30"
 							class="w-16 aspect-square rounded-full"
 						/>
-						<p class="ml-2 text-xl">Sara Vanila</p>
+						<p class="ml-2 text-xl">？？？</p>
 					</div>
 				</div>
 				<!-- Chat bubble -->
