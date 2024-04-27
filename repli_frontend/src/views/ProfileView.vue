@@ -92,10 +92,7 @@ export default {
 <template>
 	<div class="flex-col justify-center w-full mt-6 px-40 overflow-y-auto">
 		<header class="w-8/12 h-40 flex justify-around">
-			<img
-				src="https://i.pravatar.cc/100?img=29"
-				class="w-40 h-40 rounded-full mx-8"
-			/>
+			<img :src="user.get_avatar" class="w-40 h-40 rounded-full mx-8" />
 			<div class="my-8 flex flex-col justify-around">
 				<div class="flex gap-6 items-center justify-between">
 					<p>

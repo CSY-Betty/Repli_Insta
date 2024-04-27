@@ -157,7 +157,7 @@ export default {
 					v-if="userStore.user.isAuthenticated"
 				>
 					<img
-						src="https://i.pravatar.cc/30?img=29"
+						:src="userStore.user.avatar"
 						class="w-6 h-6 rounded-full"
 					/>
 
