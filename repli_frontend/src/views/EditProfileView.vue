@@ -65,6 +65,7 @@ export default {
 								id: this.userStore.user.id,
 								name: this.form.name,
 								email: this.form.email,
+								avatar: response.data.user.get_avatar,
 							});
 
 							this.$router.back();
