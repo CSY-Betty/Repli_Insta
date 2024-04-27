@@ -29,6 +29,8 @@ export default {
 					console.log('post create success data: ', response.data);
 					this.postStore.updatePost(response.data);
 					this.body = '';
+					this.TogglePopup();
+					window.location.reload();
 				})
 				.catch((error) => {
 					console.log('post create error: ', error);
