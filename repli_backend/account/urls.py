@@ -9,6 +9,7 @@ urlpatterns = [
     path("login/", TokenObtainPairView.as_view(), name="token_obtain"),
     path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("editprofile/", api.edit_profile, name="edit_profile"),
+    path("editpassword/", api.edit_password, name="edit_password"),
     path("friends/<uuid:pk>/", api.friends, name="friends"),
     path(
         "friends/<uuid:pk>/request/",

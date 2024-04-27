@@ -18,8 +18,9 @@ export default {
 	data() {
 		return {
 			form: {
-				email: this.userStore.user.email,
-				name: this.userStore.user.name,
+				old_password: '',
+				new_password1: '',
+				new_password2: '',
 			},
 			errors: [],
 		};
@@ -29,57 +30,43 @@ export default {
 		submitForm() {
 			this.errors = [];
 
-			if (this.form.name === '') {
-				console.log('Your name is missing.');
-				this.errors.push('Your name is missing.');
+			if (this.form.new_password1 === '') {
+				this.errors.push('Your password is missing.');
 			}
 
-			if (this.form.email === '') {
-				console.log('Your email is missing.');
-
-				this.errors.push('Your email is missing.');
+			if (this.form.new_password1 !== this.form.new_password2) {
+				this.errors.push('The password does not match');
 			}
 
 			if (this.errors.length === 0) {
 				let formData = new FormData();
-				formData.append('avatar', this.$refs.file.files[0]);
-				formData.append('name', this.form.name);
-				formData.append('email', this.form.email);
+				formData.append('old_password', this.form.old_password);
+				formData.append('new_password1', this.form.new_password1);
+				formData.append('new_password2', this.form.new_password2);
 
 				axios
-					.post('/api/editprofile/', formData, {
+					.post('/api/editpassword/', formData, {
 						headers: {
 							'Content-Type': 'multipart/form-data',
 						},
 					})
 					.then((response) => {
-						if (response.data.message === 'information updated.') {
-							console.log('success');
+						if (response.data.message === 'success') {
 							this.toastStore.showToast(
 								5000,
 								'The information was saved.',
 								'bg-emerald-500'
 							);
 
-							// update the us er store in the browser
-							this.userStore.setUserInfo({
-								id: this.userStore.user.id,
-								name: this.form.name,
-								email: this.form.email,
-								avatar: response.data.user.get_avatar,
-							});
-
-							this.$router.back();
+							this.$router.push(
+								`/profile/${this.userStore.user.id}`
+							);
 						} else {
-							console.log(
-								'response.data.message: ',
-								response.data.message
-							);
-							this.toastStore.showToast(
-								5000,
-								`${response.data.message}. Please try again`,
-								'bg-red-300'
-							);
+							const data = JSON.parse(response.data.message);
+
+							for (const key in data) {
+								this.errors.push(data[key][0].message);
+							}
 						}
 					})
 					.catch((error) => {
@@ -103,51 +90,55 @@ export default {
 					<h1
 						class="text-2xl font-bold text-center mb-4 dark:text-gray-200"
 					>
-						Edit Profile
+						Edit Password
 					</h1>
 
 					<!-- signup form -->
 					<form v-on:submit.prevent="submitForm">
 						<div class="mb-4">
 							<label
-								for="avatar"
+								for="name"
 								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-								>Avatar</label
+								>Old Password</label
 							>
 							<input
-								type="file"
-								id="avatar"
-								ref="file"
+								type="password"
+								v-model="form.old_password"
+								id="name"
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
+								placeholder="Your old password"
+								required
 							/>
 						</div>
+
 						<div class="mb-4">
 							<label
 								for="name"
 								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-								>Name</label
+								>New Password</label
 							>
 							<input
-								type="text"
-								v-model="form.name"
+								type="password"
+								v-model="form.new_password1"
 								id="name"
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
-								placeholder="your name"
+								placeholder="Your new password"
 								required
 							/>
 						</div>
+
 						<div class="mb-4">
 							<label
-								for="email"
+								for="name"
 								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-								>Email Address</label
+								>Repeat Password</label
 							>
 							<input
-								type="email"
-								v-model="form.email"
-								id="email"
+								type="password"
+								v-model="form.new_password2"
+								id="name"
 								class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-rose-300 focus:border-rose-300"
-								placeholder="your@email.com"
+								placeholder="Repeat password"
 								required
 							/>
 						</div>
@@ -160,18 +151,15 @@ export default {
 
 						<!-- error handling -->
 						<template v-if="errors.length > 0">
-							<div class="bg-red-300 text-white rounded-lg p-6">
+							<div
+								class="bg-red-300 text-white rounded-lg p-6 mt-6"
+							>
 								<p v-for="error in errors" v-bind:key="error">
 									{{ error }}
 								</p>
 							</div>
 						</template>
 					</form>
-					<RouterLink
-						to="/profile/edit/password"
-						class="pt-4 underline"
-						>Edit Password</RouterLink
-					>
 				</div>
 			</div>
 		</div>
