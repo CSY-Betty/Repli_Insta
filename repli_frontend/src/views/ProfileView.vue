@@ -22,7 +22,7 @@ export default {
 		return {
 			posts: [],
 			user: {
-				id: null,
+				id: '',
 			},
 		};
 	},
