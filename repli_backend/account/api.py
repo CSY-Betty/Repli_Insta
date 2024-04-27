@@ -6,7 +6,7 @@ from rest_framework.decorators import (
     permission_classes,
 )
 
-from .forms import SignupForm
+from .forms import SignupForm, ProfileForm
 from .models import User, FriendshipRequest
 from .serializers import UserSerializer, FriendshipRequestSerializer
 
@@ -14,7 +14,12 @@ from .serializers import UserSerializer, FriendshipRequestSerializer
 @api_view(["GET"])
 def me(request):
     return JsonResponse(
-        {"id": request.user.id, "name": request.user.name, "email": request.user.email}
+        {
+            "id": request.user.id,
+            "name": request.user.name,
+            "email": request.user.email,
+            "avatar": request.user.get_avatar(),
+        }
     )
 
 
@@ -69,6 +74,25 @@ def friends(request, pk):
         },
         safe=False,
     )
+
+
+@api_view(["POST"])
+def edit_profile(request):
+    user = request.user
+    email = request.data.get("email")
+
+    if User.objects.exclude(id=user.id).filter(email=email).exists():
+        return JsonResponse({"message": "email already exists."})
+    else:
+        print(request.FILES)
+        print(request.POST)
+
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+
+        if form.is_valid():
+            form.save()
+
+        return JsonResponse({"message": "information updated."})
 
 
 @api_view(["POST"])

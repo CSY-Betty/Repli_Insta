@@ -66,6 +66,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def posts_count(self):
         return self.posts.count()
 
+    def get_avatar(self):
+        if self.avatar:
+            return "http://127.0.0.1:8000" + self.avatar.url
+        else:
+            return ""
+
 
 class FriendshipRequest(models.Model):
     SENT = "sent"
