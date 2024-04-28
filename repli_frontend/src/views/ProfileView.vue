@@ -24,6 +24,7 @@ export default {
 			user: {
 				id: '',
 			},
+			can_send_friendship_request: null,
 		};
 	},
 	mounted() {
@@ -41,11 +42,13 @@ export default {
 	methods: {
 		getPost() {
 			axios
-				.get(`/api/posts/profile/${this.$route.params.id}`)
+				.get(`/api/posts/profile/${this.$route.params.id}/`)
 				.then((response) => {
-					console.log('data', response.data.posts);
+					console.log('data', response.data);
 					this.posts = response.data.posts;
 					this.user = response.data.user;
+					this.can_send_friendship_request =
+						response.data.can_send_friendship_request;
 				})
 				.catch((error) => {
 					console.log('error', error);
@@ -55,6 +58,7 @@ export default {
 			axios
 				.post(`/api/friends/${this.$route.params.id}/request/`)
 				.then((response) => {
+					this.can_send_friendship_request = false;
 					if (response.data.message == 'request already sent') {
 						this.toastStore.showToast(
 							5000,
@@ -107,7 +111,10 @@ export default {
 					</RouterLink>
 
 					<button
-						v-if="userStore.user.id !== user.id"
+						v-if="
+							userStore.user.id !== user.id &&
+							can_send_friendship_request
+						"
 						@click="sendFriendshipRequest"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
 					>
