@@ -66,6 +66,9 @@ export default {
 					console.log('Comment error', error);
 				});
 		},
+		goBack() {
+			this.$router.back();
+		},
 	},
 };
 </script>
@@ -73,9 +76,11 @@ export default {
 	<div
 		id="OverlaySection"
 		class="fixed z-50 top-0 left-0 w-full h-screen bg-black bg-opacity-60"
+		v-on:click="goBack"
 	>
-		<RouterLink to="/explore" class="absolute top-3 right-3"
-			><svg
+		<!-- close post -->
+		<div class="absolute top-3 right-3">
+			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 24 24"
 				fill="currentColor"
@@ -87,17 +92,20 @@ export default {
 					clip-rule="evenodd"
 				/>
 			</svg>
-		</RouterLink>
+		</div>
 
 		<div
 			class="max-w-6xl h-[calc(100%-100px)] mx-auto mt-10 bg-white rounded-xl"
+			@click.stop
 		>
 			<div class="w-full md:flex h-full overflow-auto rounded-xl">
-				<div class="flex items-center bg-black w-full">
+				<div class="flex items-center bg-white w-full border-r">
 					<img
 						class="min-w-[400px] mx-auto h-full"
 						alt="image"
-						src="https://picsum.photos/id/54/800/820"
+						v-for="image in post.attachments"
+						v-bind:key="image.id"
+						:src="image.get_image"
 					/>
 				</div>
 				<div class="md:max-w-[500px] w-full relative">
