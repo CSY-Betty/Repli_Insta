@@ -56,8 +56,11 @@ export default {
 					<img
 						alt="galary1"
 						class="rounded-sm object-center object-cover aspect-square"
-						src="https://images.unsplash.com/photo-1505533321630-975218a5f66f?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+						v-for="image in post.attachments"
+						v-bind:key="image.id"
+						:src="image.get_image"
 					/>
+
 					<!-- image hover -->
 					<div
 						class="flex justify-center items-center opacity-0 bg-gradient-to-t from-gray-800 via-gray-800 to-opacity-30 group-hover:opacity-50 absolute top-0 left-0 h-full w-full"
