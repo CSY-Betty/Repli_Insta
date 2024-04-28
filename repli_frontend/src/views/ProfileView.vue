@@ -43,7 +43,7 @@ export default {
 			axios
 				.get(`/api/posts/profile/${this.$route.params.id}`)
 				.then((response) => {
-					console.log('data', response.data.user);
+					console.log('data', response.data.posts);
 					this.posts = response.data.posts;
 					this.user = response.data.user;
 				})
@@ -138,6 +138,12 @@ export default {
 				{{ post.body }}
 				{{ post.created_by.name }}
 				{{ post.created_at_formatted }} ago
+				<img
+					v-for="image in post.attachments"
+					v-bind:key="image.id"
+					:src="image.get_image"
+					class="mt-10 rounded-xl"
+				/>
 			</div>
 			<PostsList />
 		</ul>
