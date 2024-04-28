@@ -97,7 +97,7 @@ export default {
 						class="px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black focus:bg-gray-100"
 					>
 						<img
-							src="https://i.pravatar.cc/150?img=29"
+							:src="user.get_avatar"
 							class="w-16 aspect-square rounded-full"
 						/>
 						<p class="ml-2 text-xl">{{ user.name }}</p>
@@ -110,15 +110,23 @@ export default {
 				<!-- Sender -->
 				<div class="border-b">
 					<div
-						class="px-10 w-fit flex items-center cursor-pointer bg-white text-black"
+						class="px-10 w-fit flex items-center bg-white text-black"
+						v-for="user in activeConversation.users"
 					>
-						<img
-							src="https://i.pravatar.cc/150?img=30"
-							class="w-16 aspect-square rounded-full"
-						/>
-						<p class="ml-2 text-xl">？？？</p>
+						<div
+							class="flex items-center"
+							v-if="user.id !== userStore.user.id"
+						>
+							<img
+								:src="user.get_avatar"
+								class="w-16 aspect-square rounded-full"
+							/>
+
+							<p class="ml-6 text-xl">{{ user.name }}</p>
+						</div>
 					</div>
 				</div>
+
 				<!-- Chat bubble -->
 				<div class="mt-2 row-span-8 overflow-y-auto">
 					<template
@@ -142,14 +150,14 @@ export default {
 							</div>
 							<img
 								class="w-8 h-8 rounded-full"
-								src="https://i.pravatar.cc/150?img=30"
+								:src="message.created_by.get_avatar"
 								alt="Jese image"
 							/>
 						</div>
 						<div v-else class="flex items-end gap-2.5 pl-4 py-2">
 							<img
 								class="w-8 h-8 rounded-full"
-								src="https://i.pravatar.cc/150?img=30"
+								:src="message.created_by.get_avatar"
 								alt="Jese image"
 							/>
 							<div
