@@ -113,7 +113,7 @@ export default {
 						<div class="flex items-center">
 							<img
 								class="rounded-full w-[38px] h-[38px]"
-								src="https://picsum.photos/id/54/800/820"
+								:src="created_by.get_avatar"
 							/>
 							<div class="ml-4 font-extrabold text-[15px]">
 								{{ created_by.name }}
@@ -134,7 +134,7 @@ export default {
 							<div class="flex items-center relative">
 								<img
 									class="absolute -top-1 rounded-full w-[38px] h-[38px]"
-									src="https://picsum.photos/id/54/800/820"
+									:src="created_by.get_avatar"
 								/>
 								<div class="ml-14">
 									<span

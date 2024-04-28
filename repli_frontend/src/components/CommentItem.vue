@@ -15,7 +15,7 @@ export default {
 		<div class="flex items-center">
 			<img
 				class="rounded-full w-[38px] h-[38px]"
-				src="https://picsum.photos/id/54/800/820"
+				:src="comment.created_by.get_avatar"
 			/>
 			<div class="ml-4 font-extrabold text-[15px]">
 				{{ comment.created_by.name }}
