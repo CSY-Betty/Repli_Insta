@@ -18,6 +18,7 @@ class CustomUserManager(UserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, name=name, **extra_fields)
         user.set_password(password)
+
         user.save(using=self._db)
 
         return user
@@ -40,7 +41,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=255, blank=True, default="")
-    avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
+    avatar = models.ImageField(
+        upload_to="avatars", blank=True, null=True, default="avatars/default_avatar.jpg"
+    )
     friends = models.ManyToManyField("self")
     friends_count = models.IntegerField(default=0)
 
