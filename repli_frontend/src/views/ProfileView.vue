@@ -36,7 +36,7 @@ export default {
 				this.getPost();
 			},
 			deep: true,
-			immediate: true,
+			immediate: false,
 		},
 	},
 	methods: {

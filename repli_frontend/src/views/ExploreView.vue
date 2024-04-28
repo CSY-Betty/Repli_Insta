@@ -28,7 +28,7 @@ export default {
 	methods: {
 		getPost() {
 			axios
-				.get('/api/posts')
+				.get('/api/posts/')
 				.then((response) => {
 					console.log('data', response.data);
 					this.posts = response.data;
@@ -39,9 +39,9 @@ export default {
 				});
 		},
 	},
-	beforeCreate() {
-		this.postStore.initStore();
-	},
+	// beforeCreate() {
+	// 	this.postStore.initStore();
+	// },
 };
 </script>
 <template>
