@@ -15,6 +15,7 @@ export default {
 		return {
 			body: '',
 			posts: [],
+			url: null,
 		};
 	},
 	methods: {
@@ -33,6 +34,7 @@ export default {
 					console.log('post create success data: ', response.data);
 					this.postStore.updatePost(response.data);
 					this.body = '';
+					this.url = null;
 					this.TogglePopup();
 
 					window.location.reload();
@@ -40,6 +42,10 @@ export default {
 				.catch((error) => {
 					console.log('post create error: ', error);
 				});
+		},
+		onFileChange(e) {
+			const file = e.target.files[0];
+			this.url = URL.createObjectURL(file);
 		},
 	},
 };
@@ -65,7 +71,7 @@ export default {
 			</svg>
 		</div>
 		<div
-			class="w-6/12 h-3/6 bg-white rounded flex flex-col m-auto"
+			class="w-6/12 h-auto bg-white rounded flex flex-col m-auto"
 			@click.stop
 		>
 			<form
@@ -73,17 +79,24 @@ export default {
 				method="post"
 				class="flex flex-col items-center h-full"
 			>
-				<!-- upload  image-->
-				<div class="flex flex-col w-9/12 h-full mt-4 gap-4">
+				<!-- preview  image-->
+				<div
+					id="preview"
+					v-if="url"
+					class="flex justify-center w-6/12 mt-2"
+				>
+					<img :src="url" class="rounded-sm" />
+				</div>
+
+				<div class="flex flex-col w-9/12 h-full mt-2 gap-4">
+					<!-- upload  image-->
 					<label
 						for="dropzone-file"
-						class="flex flex-col items-center justify-center h-1/5 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 mt-4"
+						class="flex flex-col items-center justify-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 mt-4"
 					>
-						<div
-							class="flex flex-col items-center justify-center py-4"
-						>
+						<div class="flex justify-center py-2 items-center">
 							<svg
-								class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+								class="w-8 h-8 text-gray-500 dark:text-gray-400"
 								aria-hidden="true"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -97,7 +110,9 @@ export default {
 									d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
 								/>
 							</svg>
-							<p class="text-sm text-gray-500 dark:text-gray-400">
+							<p
+								class="text-sm text-gray-500 dark:text-gray-400 ml-4"
+							>
 								<span class="font-semibold"
 									>Click to upload</span
 								>
@@ -108,6 +123,7 @@ export default {
 							type="file"
 							ref="file"
 							class="hidden"
+							@change="onFileChange"
 						/>
 					</label>
 					<!-- content -->
