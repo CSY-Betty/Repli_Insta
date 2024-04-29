@@ -1,6 +1,7 @@
 from typing import Any
 import uuid
 
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.db import models
 from django.utils import timezone
@@ -71,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_avatar(self):
         if self.avatar:
-            return "http://127.0.0.1:8000" + self.avatar.url
+            return settings.WEBSITE_URL + self.avatar.url
         else:
             return ""
 

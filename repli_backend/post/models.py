@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from account.models import User
 from django.utils.timesince import timesince
+from django.conf import settings
 
 
 class Like(models.Model):
@@ -37,7 +38,7 @@ class PostAttachment(models.Model):
 
     def get_image(self):
         if self.image:
-            return "http://127.0.0.1:8000" + self.image.url
+            return settings.WEBSITE_URL + self.image.url
         else:
             return ""
 

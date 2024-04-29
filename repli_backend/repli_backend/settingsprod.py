@@ -27,9 +27,9 @@ SECRET_KEY = "django-insecure-rk^%@$)w*#e%@fz4o8q1^o34#c%!eno(*hi*k@!p%_sx-#l)=6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["api.planabcd.site"]
 
-WEBSITE_URL = "http://127.0.0.1:8000"
+WEBSITE_URL = "https://api.planabcd.site"
 
 
 # Application definition
@@ -51,11 +51,11 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "http://planabcd.site/",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
+    "http://planabcd.site/",
 ]
 
 
