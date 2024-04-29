@@ -3,9 +3,19 @@ import axios from 'axios';
 import { comment } from 'postcss';
 import { RouterLink } from 'vue-router';
 import CommentItem from '@/components/CommentItem.vue';
+import { useUserStore } from '@/stores/user';
 
 export default {
 	name: 'PostView',
+
+	setup() {
+		const userStore = useUserStore();
+
+		return {
+			userStore,
+		};
+	},
+
 	components: {
 		CommentItem,
 	},
@@ -15,6 +25,7 @@ export default {
 			created_by: {},
 			body: '',
 			comments: [],
+			showExtraModal: false,
 		};
 	},
 
@@ -69,16 +80,29 @@ export default {
 		goBack() {
 			this.$router.back();
 		},
+		toggleExtraModal() {
+			this.showExtraModal = !this.showExtraModal;
+		},
+		deletePost() {
+			axios
+				.delete(`/api/posts/${this.post.id}/delete/`)
+				.then((response) => {
+					this.$router.back();
+				})
+				.catch((error) => {
+					console.log('Comment error', error);
+				});
+		},
 	},
 };
 </script>
 <template>
+	<!-- close post -->
 	<div
 		id="OverlaySection"
-		class="fixed z-50 top-0 left-0 w-full h-screen bg-black bg-opacity-60"
+		class="fixed z-10 top-0 left-0 w-full h-screen bg-black bg-opacity-60"
 		v-on:click="goBack"
 	>
-		<!-- close post -->
 		<div class="absolute top-3 right-3">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +122,9 @@ export default {
 			class="max-w-6xl h-[calc(100%-100px)] mx-auto mt-10 bg-white rounded-xl"
 			@click.stop
 		>
+			<!-- center content -->
 			<div class="w-full md:flex h-full overflow-auto rounded-xl">
+				<!-- left:post image -->
 				<div class="flex items-center bg-white w-full border-r">
 					<img
 						class="min-w-[400px] mx-auto h-full"
@@ -108,7 +134,9 @@ export default {
 						:src="image.get_image"
 					/>
 				</div>
+				<!-- right -->
 				<div class="md:max-w-[500px] w-full relative">
+					<!-- top: post created_by -->
 					<div class="flex items-center justify-between p-3 border-b">
 						<div class="flex items-center">
 							<img
@@ -127,8 +155,29 @@ export default {
 								<div>{{ post.created_at_formatted }} ago</div>
 							</div>
 						</div>
-						<button>...</button>
+
+						<div
+							v-if="created_by.id == userStore.user.id"
+							@click="toggleExtraModal"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-6 h-6"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+								/>
+							</svg>
+						</div>
 					</div>
+
+					<!-- center: post comment -->
 					<div class="overflow-y-auto h-[calc(100%-170px)]">
 						<div class="flex items-center justify-between p-3 mb-6">
 							<div class="flex items-center relative">
@@ -158,6 +207,8 @@ export default {
 						<!-- <div class="pb-16 md:hidden"></div> -->
 					</div>
 					<hr />
+
+					<!-- bottom: post like and comment count-->
 					<div class="flex my-2 items-center gap-4">
 						<div class="flex items-center">
 							<button @click="likePost(post.id)" class="ml-4">
@@ -180,6 +231,7 @@ export default {
 								>{{ post.likes_count }} likes</span
 							>
 						</div>
+
 						<div class="flex flex-row gap-1 items-center">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -202,6 +254,8 @@ export default {
 						</div>
 					</div>
 					<hr />
+
+					<!-- bottom: create comment -->
 					<form
 						v-on:submit.prevent="submitComment"
 						method="post"
@@ -226,6 +280,60 @@ export default {
 					</form>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div
+		v-if="showExtraModal"
+		v-on:click="toggleExtraModal()"
+		class="fixed z-20 top-0 left-0 w-full h-screen bg-black bg-opacity-30 flex items-center justify-center"
+	>
+		<div
+			class="max-w-xl w-1/4 h-1/6 mx-auto bg-white rounded-xl flex flex-col justify-around items-center"
+			@click.stop
+		>
+			<button
+				class="rounded-t-xl w-full h-1/2 flex justify-center items-center cursor-pointer hover:bg-gray-100 focus:bg-gray-200 focus:outline-none space-x-2 text-black"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+					/>
+				</svg>
+				<span>EDIT</span>
+			</button>
+
+			<hr class="w-full" />
+
+			<button
+				@click="deletePost"
+				class="rounded-b-xl w-full h-1/2 flex justify-center items-center cursor-pointer hover:bg-gray-100 focus:bg-gray-200 focus:outline-none space-x-2 text-red-500"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+					/>
+				</svg>
+
+				<span>DELETE</span>
+			</button>
 		</div>
 	</div>
 </template>
