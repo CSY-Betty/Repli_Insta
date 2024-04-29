@@ -132,6 +132,39 @@ def post_create_comment(request, pk):
     return JsonResponse(serializer.data, safe=False)
 
 
+@api_view(["PUT"])
+def post_edit(request, pk):
+
+    post = Post.objects.filter(created_by=request.user).get(pk=pk)
+
+    form = PostForm(request.data, instance=post)
+
+    if request.FILES:
+        attachment = None
+        attachment_form = AttachmentForm(request.data, request.FILES)
+
+        if attachment_form.is_valid():
+            attachment = attachment_form.save(commit=False)
+            attachment.created_by = request.user
+            attachment.save()
+
+            if attachment:
+                post.attachments.clear()
+                post.attachments.add(attachment)
+
+    if form.is_valid():
+        post = form.save(commit=False)
+        post.created_by = request.user
+        form.save()
+
+        serializer = PostSerializer(post)
+
+        return JsonResponse(serializer.data, safe=False)
+
+    else:
+        return JsonResponse({"error": "Update post error."})
+
+
 @api_view(["DELETE"])
 def post_delete(request, pk):
     post = Post.objects.filter(created_by=request.user).get(pk=pk)

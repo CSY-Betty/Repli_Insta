@@ -4,20 +4,32 @@ import { comment } from 'postcss';
 import { RouterLink } from 'vue-router';
 import CommentItem from '@/components/CommentItem.vue';
 import { useUserStore } from '@/stores/user';
+import { ref } from 'vue';
+import PostEdit from '@/components/PostEdit.vue';
 
 export default {
 	name: 'PostView',
 
 	setup() {
 		const userStore = useUserStore();
+		const popupTriggers = ref({
+			buttonTrigger: false,
+		});
+
+		const TogglePopup = (trigger) => {
+			popupTriggers.value[trigger] = !popupTriggers.value[trigger];
+		};
 
 		return {
 			userStore,
+			popupTriggers,
+			TogglePopup,
 		};
 	},
 
 	components: {
 		CommentItem,
+		PostEdit,
 	},
 	data() {
 		return {
@@ -292,6 +304,7 @@ export default {
 			@click.stop
 		>
 			<button
+				v-on:click="() => TogglePopup('buttonTrigger')"
 				class="rounded-t-xl w-full h-1/2 flex justify-center items-center cursor-pointer hover:bg-gray-100 focus:bg-gray-200 focus:outline-none space-x-2 text-black"
 			>
 				<svg
@@ -336,4 +349,9 @@ export default {
 			</button>
 		</div>
 	</div>
+	<PostEdit
+		v-if="popupTriggers.buttonTrigger"
+		v-bind:TogglePopup="() => TogglePopup('buttonTrigger')"
+		v-bind:post="post"
+	/>
 </template>
