@@ -53,7 +53,7 @@ export default {
 
 <template>
 	<div
-		class="fixed z-10 top-0 left-0 w-full h-screen bg-black bg-opacity-60 flex"
+		class="fixed z-30 top-0 left-0 w-full h-screen bg-black bg-opacity-60 flex"
 		@click="TogglePopup()"
 	>
 		<div class="absolute top-3 right-3">
