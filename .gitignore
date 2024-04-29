@@ -7,4 +7,5 @@ repli_backend/repli_backend/.DS_Store
 
 .DS_Store
 .pyc
+.env
 
