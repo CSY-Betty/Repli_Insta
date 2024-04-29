@@ -58,8 +58,11 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
 ]
 
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -105,6 +108,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "repli_backend.wsgi.application"
+ASGI_APPLICATION = "repli_backend.asgi.application"
 
 
 # Database
