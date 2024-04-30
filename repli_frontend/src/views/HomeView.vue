@@ -1,6 +1,4 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue';
-</script>
+<script setup></script>
 
 <template>
 	<main class="h-screen">
@@ -10,7 +8,4 @@ import TheWelcome from '../components/TheWelcome.vue';
 			alt="index image"
 		/>
 	</main>
-	<!-- <main>
-		<TheWelcome />
-	</main> -->
 </template>
