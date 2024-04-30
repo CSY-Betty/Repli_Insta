@@ -16,13 +16,9 @@ export default {
 	},
 	methods: {
 		submitForm() {
-			console.log('submitForm', this.query);
-
 			axios
 				.post('/api/search/', { query: this.query })
 				.then((response) => {
-					console.log(response.data);
-
 					this.users = response.data;
 				})
 				.catch((error) => {

@@ -33,12 +33,9 @@ export default {
 				});
 		},
 		handleRequest(status, pk) {
-			console.log('handleRequest', status);
 			axios
 				.post(`/api/friends/${pk}/${status}/`)
-				.then((response) => {
-					console.log('data', response.data);
-				})
+				.then((response) => {})
 				.catch((error) => {
 					console.log('Get friends error', error);
 				});

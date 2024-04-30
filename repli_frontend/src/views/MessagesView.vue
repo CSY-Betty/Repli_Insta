@@ -23,18 +23,14 @@ export default {
 	},
 	methods: {
 		setActiveConversation(id) {
-			console.log('setActiveConversation', id);
-
 			this.activeConversation = id;
 			this.getMessages();
 		},
 
 		getConversations() {
-			console.log('getConversations');
 			axios
 				.get('/api/chat/')
 				.then((response) => {
-					console.log(response.data);
 					this.conversations = response.data;
 
 					if (this.conversations) {
@@ -48,11 +44,9 @@ export default {
 				});
 		},
 		getMessages() {
-			console.log('getMessages');
 			axios
 				.get(`/api/chat/${this.activeConversation}/`)
 				.then((response) => {
-					console.log(response.data);
 					this.activeConversation = response.data;
 				})
 				.catch((error) => {
@@ -60,14 +54,11 @@ export default {
 				});
 		},
 		sendMessage() {
-			console.log('sendMessages', this.body);
-
 			axios
 				.post(`/api/chat/${this.activeConversation.id}/send/`, {
 					body: this.body,
 				})
 				.then((response) => {
-					console.log(response.data);
 					this.activeConversation.messages.push(response.data);
 					this.body = '';
 				})

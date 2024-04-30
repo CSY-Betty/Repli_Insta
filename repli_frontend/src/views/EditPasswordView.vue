@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { useToastStore } from '@/stores/toast';
 import { useUserStore } from '@/stores/user';
-import { RouterLink } from 'vue-router';
 
 export default {
 	setup() {

@@ -1,7 +1,5 @@
 <script>
 import axios from 'axios';
-import { comment } from 'postcss';
-import { RouterLink } from 'vue-router';
 import CommentItem from '@/components/CommentItem.vue';
 import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
@@ -49,7 +47,6 @@ export default {
 			axios
 				.get(`/api/posts/${this.$route.params.id}/`)
 				.then((response) => {
-					console.log('post data', response.data);
 					this.post = response.data;
 					this.created_by = response.data.created_by;
 					this.comments = response.data.comments;
@@ -71,15 +68,11 @@ export default {
 				});
 		},
 		submitComment() {
-			console.log('submitComment', this.body);
-
 			axios
 				.post(`/api/posts/${this.$route.params.id}/comment/`, {
 					body: this.body,
 				})
 				.then((response) => {
-					console.log('Comment data', response.data);
-
 					this.comments.push(response.data);
 					this.post.comments_count += 1;
 

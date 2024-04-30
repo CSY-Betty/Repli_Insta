@@ -26,13 +26,10 @@ export default {
 			this.errors = [];
 
 			if (this.form.name === '') {
-				console.log('Your name is missing.');
 				this.errors.push('Your name is missing.');
 			}
 
 			if (this.form.email === '') {
-				console.log('Your email is missing.');
-
 				this.errors.push('Your email is missing.');
 			}
 

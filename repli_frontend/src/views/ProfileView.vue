@@ -44,7 +44,6 @@ export default {
 			axios
 				.get(`/api/posts/profile/${this.$route.params.id}/`)
 				.then((response) => {
-					console.log('data', response.data);
 					this.posts = response.data.posts;
 					this.user = response.data.user;
 					this.can_send_friendship_request =
@@ -78,11 +77,9 @@ export default {
 				});
 		},
 		sendDirectMessage() {
-			console.log('sendDirectMessage');
 			axios
 				.get(`/api/chat/${this.$route.params.id}/get-or-create/`)
 				.then((response) => {
-					console.log(response.data);
 					this.$router.push('/messages');
 				})
 				.catch((error) => {
