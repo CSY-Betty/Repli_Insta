@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["api.planabcd.site"]
 
-WEBSITE_URL = "https://api.planabcd.site"
+WEBSITE_URL = "http://api.planabcd.site"
 
 
 # Application definition
