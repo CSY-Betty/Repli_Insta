@@ -43,7 +43,6 @@ export default {
 	},
 	methods: {
 		logout() {
-			console.log('Log out');
 			this.userStore.removeToken();
 			this.$router.push('/');
 		},
