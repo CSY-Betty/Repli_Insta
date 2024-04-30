@@ -132,7 +132,7 @@ export default {
 				<!-- left:post image -->
 				<div class="flex items-center bg-white w-full border-r">
 					<img
-						class="min-w-[400px] mx-auto h-full"
+						class="min-w-[400px] mx-auto h-full object-cover"
 						alt="image"
 						v-for="image in post.attachments"
 						v-bind:key="image.id"

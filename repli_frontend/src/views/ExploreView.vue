@@ -40,13 +40,13 @@ export default {
 };
 </script>
 <template>
-	<div class="flex-col justify-center w-full mt-6 px-40 overflow-y-auto">
-		<ul class="grid grid-cols-3 gap-1">
+	<div class="flex-col justify-center w-full mt-6 px-20 overflow-y-auto">
+		<ul class="min-w-4xl flex flex-wrap justify-start gap-2 pl-20">
 			<PostsList
 				v-for="post in posts"
 				v-bind:key="post.id"
 				v-bind:post="post"
-				class="cursor-pointer relative group"
+				class="cursor-pointer relative group min-w-64 w-1/4"
 			/>
 		</ul>
 	</div>
