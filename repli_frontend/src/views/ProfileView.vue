@@ -89,6 +89,24 @@ export default {
 					console.log('send error', error);
 				});
 		},
+		joinChatRoom() {
+			console.log('joinChatRoom');
+			const chatRoomUuid = Math.random().toString(36).slice(2, 12);
+			const chatName = this.$route.params.id;
+			const url = this.$route.path;
+			const formData = new FormData();
+			formData.append('name', chatName);
+			formData.append('url', url);
+
+			axios
+				.post(`/api/chat/create-room/${chatRoomUuid}/`, formData)
+				.then((response) => {
+					this.$router.push(`/chat-room/${chatRoomUuid}`);
+				})
+				.catch((error) => {
+					console.log('error:', error);
+				});
+		},
 	},
 };
 </script>
@@ -123,7 +141,7 @@ export default {
 
 					<button
 						v-if="userStore.user.id !== user.id"
-						@click="sendDirectMessage"
+						@click="joinChatRoom"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
 					>
 						send Messages

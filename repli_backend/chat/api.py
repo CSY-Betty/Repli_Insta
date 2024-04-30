@@ -8,12 +8,13 @@ from rest_framework.decorators import (
 
 from account.models import User
 
-from .models import Conversation, ConversationMessage
+from .models import Conversation, ConversationMessage, Room
 
 from .serializers import (
     ConversationSerializer,
     ConversationDetailSerializer,
     ConversationMessageSeriazlizer,
+    RoomSerializer,
 )
 
 
@@ -78,3 +79,35 @@ def conversation_send_message(request, pk):
     serializer = ConversationMessageSeriazlizer(conversation_message)
 
     return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(["POST"])
+def create_room(request, uuid):
+    name = request.POST.get("name", "")
+    url = request.POST.get("url", "")
+
+    print(name)
+    print(url)
+
+    # Room.objects.create(uuid=uuid, client=name, url=url)
+
+    return JsonResponse({"message": "room created"})
+
+
+@api_view(["Get"])
+def get_room(request):
+    chat_room = Room.objects.filter(client__in=list([request.user]))
+    print("request: ", request)
+    print("request.user: ", request.user)
+
+    print(chat_room)
+
+    serializer = RoomSerializer(chat_room, many=True)
+
+    return JsonResponse(serializer.data, safe=False)
+
+    # return JsonResponse({"message": "room created"})
+
+
+def chatPage():
+    pass

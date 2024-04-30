@@ -128,6 +128,12 @@ export default {
 						class="text-black ml-2 hover:text-rose-400"
 						>Messages</RouterLink
 					>
+
+					<RouterLink
+						to="/chat-room"
+						class="text-black ml-2 hover:text-rose-400"
+						>Chat</RouterLink
+					>
 				</div>
 				<div class="flex" v-if="userStore.user.isAuthenticated">
 					<svg

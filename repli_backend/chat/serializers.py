@@ -2,7 +2,13 @@ from rest_framework import serializers
 
 from account.serializers import UserSerializer
 
-from .models import Conversation, ConversationMessage
+from .models import Conversation, ConversationMessage, Room
+
+
+class RoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = ("uuid", "client", "agent")
 
 
 class ConversationSerializer(serializers.ModelSerializer):
