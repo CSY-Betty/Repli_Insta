@@ -54,13 +54,17 @@ export default {
 					.get('/api/me/', this.form)
 					.then((response) => {
 						this.userStore.setUserInfo(response.data);
-
-						this.$router.push('/explore');
 					})
 					.catch((error) => {
 						console.log('error', error);
 					});
 			}
+			this.redirectReload();
+		},
+		redirectReload() {
+			this.$router.push({ path: '/explore' }).then(() => {
+				this.$router.go(0);
+			});
 		},
 	},
 };

@@ -30,18 +30,13 @@ export default {
 			axios
 				.get('/api/posts/')
 				.then((response) => {
-					console.log('data', response.data);
 					this.posts = response.data;
-					console.log('posts data:', this.posts);
 				})
 				.catch((error) => {
 					console.log('error', error);
 				});
 		},
 	},
-	// beforeCreate() {
-	// 	this.postStore.initStore();
-	// },
 };
 </script>
 <template>
