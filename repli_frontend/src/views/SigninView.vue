@@ -52,12 +52,12 @@ export default {
 					.get('/api/me/', this.form)
 					.then((response) => {
 						this.userStore.setUserInfo(response.data);
+						this.redirectReload();
 					})
 					.catch((error) => {
 						console.log('error', error);
 					});
 			}
-			this.redirectReload();
 		},
 		redirectReload() {
 			this.$router.push({ path: '/explore' }).then(() => {
@@ -211,7 +211,9 @@ export default {
 						</a> -->
 						<!-- error handling -->
 						<template v-if="errors.length > 0">
-							<div class="bg-red-300 text-white rounded-lg p-6">
+							<div
+								class="bg-red-300 text-white rounded-lg p-6 mt-4"
+							>
 								<p v-for="error in errors" v-bind:key="error">
 									{{ error }}
 								</p>
