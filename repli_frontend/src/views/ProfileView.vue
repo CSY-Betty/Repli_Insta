@@ -110,7 +110,8 @@ export default {
 					<button
 						v-if="
 							userStore.user.id !== user.id &&
-							can_send_friendship_request
+							can_send_friendship_request &&
+							userStore.user.id
 						"
 						@click="sendFriendshipRequest"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
@@ -119,7 +120,9 @@ export default {
 					</button>
 
 					<button
-						v-if="userStore.user.id !== user.id"
+						v-if="
+							userStore.user.id !== user.id && userStore.user.id
+						"
 						@click="sendDirectMessage"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
 					>
