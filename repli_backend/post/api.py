@@ -32,7 +32,6 @@ def post_list(request):
 
 # 取得特定 profile 的 posts
 @api_view(["GET"])
-@authentication_classes([])
 @permission_classes([])
 def post_list_profile(request, id):
     user = User.objects.get(pk=id)
@@ -45,6 +44,7 @@ def post_list_profile(request, id):
 
     # 驗證是否登入，有登入才需確認好友狀態
     if not isinstance(request.user, AnonymousUser):
+
         if request.user in user.friends.all():
             can_send_friendship_request = False
 
