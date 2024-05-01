@@ -144,13 +144,21 @@ export default {
 					<!-- top: post created_by -->
 					<div class="flex items-center justify-between p-3 border-b">
 						<div class="flex items-center">
-							<img
-								class="rounded-full w-[38px] h-[38px]"
-								:src="created_by.get_avatar"
-							/>
-							<div class="ml-4 font-extrabold text-[15px]">
-								{{ created_by.name }}
-							</div>
+							<RouterLink
+								:to="{
+									name: 'profile',
+									params: { id: created_by.id },
+								}"
+								class="flex items-center"
+							>
+								<img
+									class="rounded-full w-[38px] h-[38px]"
+									:src="created_by.get_avatar"
+								/>
+								<div class="ml-4 font-extrabold text-[15px]">
+									{{ created_by.name }}
+								</div>
+							</RouterLink>
 							<div
 								class="flex items-center text-[15px] text-gray-500"
 							>
