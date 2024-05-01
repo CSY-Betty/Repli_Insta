@@ -52,6 +52,8 @@ def signup(request):
 
 # 取得使用者的好友列表
 @api_view(["GET"])
+@authentication_classes([])
+@permission_classes([])
 def friends(request, pk):
     # 獲取特定的用戶資料
     user = User.objects.get(pk=pk)
