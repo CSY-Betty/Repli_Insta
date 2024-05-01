@@ -110,7 +110,7 @@ export default {
 					class="flex flex-col gap-10"
 					v-if="userStore.user.isAuthenticated"
 				>
-					<div class="flex items-center">
+					<!-- <div class="flex items-center">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -131,7 +131,7 @@ export default {
 							class="text-black ml-2 hover:text-rose-400"
 							>Messages</RouterLink
 						>
-					</div>
+					</div> -->
 
 					<div class="flex items-center">
 						<svg
