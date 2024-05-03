@@ -55,17 +55,14 @@ REST_FRAMEWORK = {
 }
 
 
-CORS_ALLOWED_ORIGINS = True
-CSRF_TRUSTED_ORIGINS = True
-
 CORS_ALLOWED_ORIGINS = [
-    "http://planabcd.site/",
-    "https://planabcd.site/",
+    "http://planabcd.site",
+    "https://planabcd.site",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://planabcd.site/",
-    "https://planabcd.site/",
+    "http://planabcd.site",
+    "https://planabcd.site",
 ]
 
 
