@@ -8,7 +8,9 @@ Website: https://planabcd.site/
 ![index](./docs/index.png)
 
 Demo Video:
-![demo_video](./docs/demo_video.mp4)
+https://github.com/CSY-Betty/Repli2/assets/84286529/fb84aefe-3e43-4b79-9f55-f702e79e14b2
+
+
 
 ## Technique
 
