@@ -116,24 +116,24 @@ export default {
 			class="container mx-auto overflow-y-auto flex flex-col items-center"
 		>
 			<div
-				v-for="user in friends"
-				v-bind:key="user.id"
+				v-for="friend in friends"
+				v-bind:key="friend.id"
 				class="flex items-center max-w-md py-2 w-full cursor-pointer bg-white text-black justify-between border rounded-sm"
 			>
 				<RouterLink
-					:to="{ name: 'profile', params: { id: user.id } }"
+					:to="{ name: 'profile', params: { id: friend.id } }"
 					class="max-w-md px-10 w-full flex items-center cursor-pointer"
 				>
 					<img
-						src="https://i.pravatar.cc/150?img=29"
+						:src="friend.get_avatar"
 						class="w-16 aspect-square rounded-full"
 					/>
-					<p class="ml-2 text-xl">{{ user.name }}</p>
+					<p class="ml-2 text-xl">{{ friend.name }}</p>
 				</RouterLink>
 				<div
 					v-if="user.id == userStore.user.id"
 					class="w-1/6 mx-2 px-2 flex items-center cursor-pointer hover:bg-rose-50 bg-rose-100 rounded-sm"
-					@click="handleRequest('removed', user.id)"
+					@click="handleRequest('removed', friend.id)"
 				>
 					Remove
 				</div>

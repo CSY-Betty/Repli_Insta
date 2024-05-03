@@ -4,7 +4,7 @@
 	<main class="h-screen">
 		<img
 			class="h-screen w-screen object-cover"
-			src="@/assets/index.png"
+			src="@/assets/index.jpg"
 			alt="index image"
 		/>
 	</main>
