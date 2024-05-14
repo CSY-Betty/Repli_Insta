@@ -44,7 +44,6 @@ export default {
 			axios
 				.get(`/api/posts/profile/${this.$route.params.id}/`)
 				.then((response) => {
-					console.log('data', response.data);
 					this.posts = response.data.posts;
 					this.user = response.data.user;
 					this.can_send_friendship_request =
@@ -78,11 +77,9 @@ export default {
 				});
 		},
 		sendDirectMessage() {
-			console.log('sendDirectMessage');
 			axios
 				.get(`/api/chat/${this.$route.params.id}/get-or-create/`)
 				.then((response) => {
-					console.log(response.data);
 					this.$router.push('/messages');
 				})
 				.catch((error) => {
@@ -131,7 +128,8 @@ export default {
 					<button
 						v-if="
 							userStore.user.id !== user.id &&
-							can_send_friendship_request
+							can_send_friendship_request &&
+							userStore.user.id
 						"
 						@click="sendFriendshipRequest"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
@@ -140,8 +138,10 @@ export default {
 					</button>
 
 					<button
-						v-if="userStore.user.id !== user.id"
-						@click="joinChatRoom"
+						v-if="
+							userStore.user.id !== user.id && userStore.user.id
+						"
+						@click="sendDirectMessage"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
 					>
 						send Messages

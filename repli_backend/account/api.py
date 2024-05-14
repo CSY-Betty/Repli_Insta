@@ -1,6 +1,9 @@
 from django.http import JsonResponse
 from django.contrib.auth.forms import PasswordChangeForm
 
+from django.db.models import Q
+
+
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -52,6 +55,8 @@ def signup(request):
 
 # 取得使用者的好友列表
 @api_view(["GET"])
+# @authentication_classes([])
+# @permission_classes([])
 def friends(request, pk):
     # 獲取特定的用戶資料
     user = User.objects.get(pk=pk)
@@ -143,16 +148,40 @@ def handle_request(request, pk, status):
         created_by=user
     )
 
-    # 修改好友狀態
-    friendship_request.status = status
-    friendship_request.save()
+    if status == "acceptd":
 
-    user.friends.add(request.user)
-    user.friends_count = user.friends_count + 1
-    user.save()
+        # 修改好友狀態
+        friendship_request.status = status
+        friendship_request.save()
 
-    request_user = request.user
-    request_user.friends_count = request_user.friends_count + 1
-    request_user.save()
+        user.friends.add(request.user)
+        user.friends_count = user.friends_count + 1
+        user.save()
+
+        request_user = request.user
+        request_user.friends_count = request_user.friends_count + 1
+        request_user.save()
+
+    elif status == "rejected":
+
+        friendship_request.delete()
+
+    elif status == "removed":
+
+        friendship_request.delete()
+
+        friend_to_remove = User.objects.get(id=request.user.id)
+
+        try:
+            user.friends.remove(friend_to_remove)
+            user.friends_count = user.friends_count - 1
+            user.save()
+        except Exception as e:
+            print("Error occurred while removing friend:", e)
+
+        request_user = request.user
+        request_user.friends.remove(user)
+        request_user.friends_count = request_user.friends_count - 1
+        request_user.save()
 
     return JsonResponse({"message": "friendship request updated"})

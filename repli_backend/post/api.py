@@ -13,6 +13,8 @@ from .forms import PostForm, AttachmentForm
 from .models import Post, Like, Comment
 from .serializers import PostSerializer, PostDetailSerializer, CommentSerializer
 
+from django.contrib.auth.models import AnonymousUser
+
 
 # Create your views here.
 
@@ -30,6 +32,7 @@ def post_list(request):
 
 # 取得特定 profile 的 posts
 @api_view(["GET"])
+@permission_classes([])
 def post_list_profile(request, id):
     user = User.objects.get(pk=id)
     posts = Post.objects.filter(created_by_id=id)
@@ -39,18 +42,21 @@ def post_list_profile(request, id):
 
     can_send_friendship_request = True
 
-    if request.user in user.friends.all():
-        can_send_friendship_request = False
+    # 驗證是否登入，有登入才需確認好友狀態
+    if not isinstance(request.user, AnonymousUser):
 
-    check1 = FriendshipRequest.objects.filter(created_for=request.user).filter(
-        created_by=user
-    )
-    check2 = FriendshipRequest.objects.filter(created_for=user).filter(
-        created_by=request.user
-    )
+        if request.user in user.friends.all():
+            can_send_friendship_request = False
 
-    if check1 or check2:
-        can_send_friendship_request = False
+        check1 = FriendshipRequest.objects.filter(created_for=request.user).filter(
+            created_by=user
+        )
+        check2 = FriendshipRequest.objects.filter(created_for=user).filter(
+            created_by=request.user
+        )
+
+        if check1 or check2:
+            can_send_friendship_request = False
 
     return JsonResponse(
         {

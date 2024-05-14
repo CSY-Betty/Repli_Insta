@@ -12,7 +12,6 @@ export const usePostStore = defineStore({
 			axios
 				.get('/api/posts')
 				.then((response) => {
-					console.log('postStore data', response.data);
 					this.posts = response.data;
 				})
 				.catch((error) => {
@@ -20,7 +19,6 @@ export const usePostStore = defineStore({
 				});
 		},
 		updatePost(body) {
-			console.log('body', body);
 			this.posts.unshift(body);
 		},
 	},

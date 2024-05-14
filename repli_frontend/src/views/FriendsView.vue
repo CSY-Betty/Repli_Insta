@@ -2,9 +2,17 @@
 import axios from 'axios';
 import PeopleYouMayKnow from '@/components/PeopleYouMayKnow.vue';
 import { RouterLink } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 
 export default {
 	name: 'FriendsView',
+
+	setup() {
+		const userStore = useUserStore();
+		return {
+			userStore,
+		};
+	},
 
 	components: {
 		PeopleYouMayKnow,
@@ -33,11 +41,10 @@ export default {
 				});
 		},
 		handleRequest(status, pk) {
-			console.log('handleRequest', status);
 			axios
 				.post(`/api/friends/${pk}/${status}/`)
 				.then((response) => {
-					console.log('data', response.data);
+					this.$router.go(0);
 				})
 				.catch((error) => {
 					console.log('Get friends error', error);
@@ -108,18 +115,29 @@ export default {
 			v-if="friends.length"
 			class="container mx-auto overflow-y-auto flex flex-col items-center"
 		>
-			<RouterLink
-				v-for="user in friends"
-				v-bind:key="user.id"
-				:to="{ name: 'profile', params: { id: user.id } }"
-				class="max-w-md px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black"
+			<div
+				v-for="friend in friends"
+				v-bind:key="friend.id"
+				class="flex items-center max-w-md py-2 w-full cursor-pointer bg-white text-black justify-between border rounded-sm"
 			>
-				<img
-					src="https://i.pravatar.cc/150?img=29"
-					class="w-16 aspect-square rounded-full"
-				/>
-				<p class="ml-2 text-xl">{{ user.name }}</p>
-			</RouterLink>
+				<RouterLink
+					:to="{ name: 'profile', params: { id: friend.id } }"
+					class="max-w-md px-10 w-full flex items-center cursor-pointer"
+				>
+					<img
+						:src="friend.get_avatar"
+						class="w-16 aspect-square rounded-full"
+					/>
+					<p class="ml-2 text-xl">{{ friend.name }}</p>
+				</RouterLink>
+				<div
+					v-if="user.id == userStore.user.id"
+					class="w-1/6 mx-2 px-2 flex items-center cursor-pointer hover:bg-rose-50 bg-rose-100 rounded-sm"
+					@click="handleRequest('removed', friend.id)"
+				>
+					Remove
+				</div>
+			</div>
 
 			<!-- <PeopleYouMayKnow /> -->
 		</div>

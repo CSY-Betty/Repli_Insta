@@ -31,7 +31,6 @@ export default {
 					},
 				})
 				.then((response) => {
-					console.log('post edit: ', response.data);
 					this.postStore.updatePost(response.data);
 					this.body = '';
 					this.url = null;

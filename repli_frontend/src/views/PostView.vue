@@ -1,7 +1,5 @@
 <script>
 import axios from 'axios';
-import { comment } from 'postcss';
-import { RouterLink } from 'vue-router';
 import CommentItem from '@/components/CommentItem.vue';
 import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
@@ -49,7 +47,6 @@ export default {
 			axios
 				.get(`/api/posts/${this.$route.params.id}/`)
 				.then((response) => {
-					console.log('post data', response.data);
 					this.post = response.data;
 					this.created_by = response.data.created_by;
 					this.comments = response.data.comments;
@@ -71,15 +68,11 @@ export default {
 				});
 		},
 		submitComment() {
-			console.log('submitComment', this.body);
-
 			axios
 				.post(`/api/posts/${this.$route.params.id}/comment/`, {
 					body: this.body,
 				})
 				.then((response) => {
-					console.log('Comment data', response.data);
-
 					this.comments.push(response.data);
 					this.post.comments_count += 1;
 
@@ -139,7 +132,7 @@ export default {
 				<!-- left:post image -->
 				<div class="flex items-center bg-white w-full border-r">
 					<img
-						class="min-w-[400px] mx-auto h-full"
+						class="min-w-[400px] mx-auto h-full object-cover"
 						alt="image"
 						v-for="image in post.attachments"
 						v-bind:key="image.id"
@@ -151,13 +144,21 @@ export default {
 					<!-- top: post created_by -->
 					<div class="flex items-center justify-between p-3 border-b">
 						<div class="flex items-center">
-							<img
-								class="rounded-full w-[38px] h-[38px]"
-								:src="created_by.get_avatar"
-							/>
-							<div class="ml-4 font-extrabold text-[15px]">
-								{{ created_by.name }}
-							</div>
+							<RouterLink
+								:to="{
+									name: 'profile',
+									params: { id: created_by.id },
+								}"
+								class="flex items-center"
+							>
+								<img
+									class="rounded-full w-[38px] h-[38px]"
+									:src="created_by.get_avatar"
+								/>
+								<div class="ml-4 font-extrabold text-[15px]">
+									{{ created_by.name }}
+								</div>
+							</RouterLink>
 							<div
 								class="flex items-center text-[15px] text-gray-500"
 							>

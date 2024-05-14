@@ -1,9 +1,11 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
+<script setup></script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+	<main class="h-screen">
+		<img
+			class="h-screen w-screen object-cover"
+			src="@/assets/index.jpg"
+			alt="index image"
+		/>
+	</main>
 </template>

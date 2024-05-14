@@ -31,7 +31,6 @@ export default {
 					},
 				})
 				.then((response) => {
-					console.log('post create success data: ', response.data);
 					this.postStore.updatePost(response.data);
 					this.body = '';
 					this.url = null;
@@ -71,13 +70,13 @@ export default {
 			</svg>
 		</div>
 		<div
-			class="w-6/12 h-auto bg-white rounded flex flex-col m-auto"
+			class="w-6/12 bg-white rounded flex flex-col mx-auto my-auto max-h-screen"
 			@click.stop
 		>
 			<form
 				v-on:submit.prevent="submitForm"
 				method="post"
-				class="flex flex-col items-center h-full"
+				class="flex flex-col items-center overflow-y-auto"
 			>
 				<!-- preview  image-->
 				<div
