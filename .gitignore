@@ -6,6 +6,6 @@ repli_backend/repli_backend/__pycache__/
 repli_backend/repli_backend/.DS_Store
 
 .DS_Store
-.pyc
+*.pyc
 .env
 
