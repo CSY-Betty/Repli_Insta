@@ -15,7 +15,6 @@ from account.serializers import UserSerializer
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print("self:", self)
         self.room_name = self.scope["url_route"]["kwargs"]["room_id"]
         self.room_group_name = f"chat_{self.room_name}"
 
@@ -33,16 +32,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         type = text_data_json["type"]
         message = text_data_json["message"]
         name = text_data_json["name"]
-        # agent = text_data_json.get("agent", "")
-
-        print("Receive: ", type)
-        print("text_data_json: ", text_data_json)
 
         if type == "message":
             new_message = await self.create_message(message, name)
             name = await self.get_created_data(name)
-
-            print(name)
 
             # Send message to group / room
             await self.channel_layer.group_send(
@@ -63,9 +56,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     "type": event["type"],
                     "message": event["message"],
                     "name": event["name"],
-                    # "agent": event["agent"],
-                    # "initials": event["initials"],
-                    # "created_at": event["created_at"],
                 }
             )
         )
