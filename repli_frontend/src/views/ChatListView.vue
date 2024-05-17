@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/user';
 import { RouterLink } from 'vue-router';
 
 export default {
-	name: 'MessageListView',
+	name: 'ChatListView',
 	setup() {
 		const userStore = useUserStore();
 		return {
@@ -46,7 +46,7 @@ export default {
 				<template v-if="room.participants1.id !== userStore.user.id">
 					<RouterLink
 						:to="{
-							name: 'messages',
+							name: 'Chat',
 							params: { id: room.id },
 						}"
 						class="px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black focus:bg-gray-100"
@@ -63,7 +63,7 @@ export default {
 				<template v-if="room.participants2.id !== userStore.user.id">
 					<RouterLink
 						:to="{
-							name: 'messages',
+							name: 'Chat',
 							params: { id: room.id },
 						}"
 						class="px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black focus:bg-gray-100"
@@ -80,5 +80,4 @@ export default {
 			</div>
 		</article>
 	</main>
-	<router-view />
 </template>

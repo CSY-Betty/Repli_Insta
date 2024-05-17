@@ -89,7 +89,7 @@ export default {
 </script>
 
 <template>
-	<ChatView />
+	<!-- <ChatView /> -->
 	<section class="pt-6 h-screen w-full">
 		<div class="grid grid-rows-10 h-full">
 			<div v-if="room.participants1 && room.participants2">
@@ -146,7 +146,7 @@ export default {
 					:key="conversation.id"
 				>
 					<div
-						v-if="conversation.name == userStore.user.id"
+						v-if="conversation.name.id == userStore.user.id"
 						class="flex items-end gap-2.5 px-4 py-2 justify-end"
 					>
 						<div
@@ -160,14 +160,14 @@ export default {
 						</div>
 						<img
 							class="w-8 h-8 rounded-full"
-							:src="userStore.user.avatar"
+							:src="conversation.name.get_avatar"
 							alt="Myavatar"
 						/>
 					</div>
 					<div v-else class="flex items-end gap-2.5 pl-4 py-2">
 						<img
 							class="w-8 h-8 rounded-full"
-							src="https://i.pravatar.cc/150?img=45"
+							:src="conversation.name.get_avatar"
 							alt="Jese image"
 						/>
 						<div

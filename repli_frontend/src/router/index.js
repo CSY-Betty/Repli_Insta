@@ -11,8 +11,9 @@ import PostView from '../views/PostView.vue';
 import EditProfileView from '../views/EditProfileView.vue';
 import EditPasswordView from '../views/EditPasswordView.vue';
 
-import ChatView from '../views/ChatView.vue';
+import ChatListView from '../views/ChatListView.vue';
 import Chat from '@/components/Chat.vue';
+import Message from '@/components/Message.vue';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,13 +30,24 @@ const router = createRouter({
 		},
 		{
 			path: '/messages',
-			name: 'messages',
 			component: MessagesView,
+		},
+
+		{
+			path: '/messages/:id',
+			component: MessagesView,
+			children: [
+				{
+					path: '',
+					name: 'messages',
+					component: Message,
+				},
+			],
 		},
 		{
 			path: '/chat-room',
 			name: 'chat-room',
-			component: ChatView,
+			component: ChatListView,
 		},
 		{
 			path: '/chat-room/:id',

@@ -5,6 +5,9 @@ import { useUserStore } from '@/stores/user';
 import { RouterLink } from 'vue-router';
 import { useToastStore } from '@/stores/toast';
 
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.xsrfCookieName = 'csrftoken';
+
 export default {
 	name: 'ProfileView',
 	setup() {
@@ -76,6 +79,7 @@ export default {
 					console.log('error', error);
 				});
 		},
+
 		sendDirectMessage() {
 			axios
 				.get(`/api/chat/${this.$route.params.id}/get-or-create/`)
@@ -86,19 +90,21 @@ export default {
 					console.log('send error', error);
 				});
 		},
-		joinChatRoom() {
+		async joinChatRoom() {
 			console.log('joinChatRoom');
-			const chatRoomUuid = Math.random().toString(36).slice(2, 12);
-			const chatName = this.$route.params.id;
-			const url = this.$route.path;
+			console.log(this.$route.params.id);
+			const chatId = this.$route.params.id;
+			// const url = this.$route.path;
+
 			const formData = new FormData();
-			formData.append('name', chatName);
-			formData.append('url', url);
+			formData.append('chatId', chatId);
 
 			axios
-				.post(`/api/chat/create-room/${chatRoomUuid}/`, formData)
+				.post('/api/chat/create-room/', formData)
 				.then((response) => {
-					this.$router.push(`/chat-room/${chatRoomUuid}`);
+					const chatRoomId = response.data.room_id;
+
+					this.$router.push(`/messages/${chatRoomId}/`);
 				})
 				.catch((error) => {
 					console.log('error:', error);
@@ -141,7 +147,7 @@ export default {
 						v-if="
 							userStore.user.id !== user.id && userStore.user.id
 						"
-						@click="sendDirectMessage"
+						@click="joinChatRoom"
 						class="bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
 					>
 						send Messages
