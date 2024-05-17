@@ -26,9 +26,7 @@ export default {
 			axios
 				.get('api/chat/list-rooms/')
 				.then((response) => {
-					console.log(response.data);
 					this.rooms = response.data.rooms;
-					console.log('rooms:', this.rooms);
 				})
 				.catch((error) => {
 					console.log('error:', error);

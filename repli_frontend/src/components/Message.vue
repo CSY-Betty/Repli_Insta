@@ -32,7 +32,6 @@ export default {
 			axios
 				.get(`api/chat/room/${this.roomId}`)
 				.then((response) => {
-					console.log(response.data);
 					this.messages = response.data.messages;
 					this.room = response.data.room;
 				})
@@ -41,38 +40,27 @@ export default {
 				});
 		},
 		chats() {
-			// console.log(this.userStore.user.id);
-			// console.log(this.roomId);
-
 			this.chatSocket = new WebSocket(
 				`ws://localhost:8000/ws/${this.roomId}/`
 			);
 
 			// get message from backend
 			this.chatSocket.onmessage = (e) => {
-				console.log('onMessage');
-				console.log(e.data);
-				console.log(JSON.parse(e.data));
-
 				const newMessage = JSON.parse(e.data);
 				this.activeConversation.push(newMessage);
-
-				// this.activeConversation = JSON.parse(e.data);
-
-				console.log(this.activeConversation);
 			};
 
 			this.chatSocket.onerror = function (error) {
 				console.error('WebSocket error: ', error);
 			};
 
-			this.chatSocket.onopen = function (e) {
-				console.log('onopen - open');
-			};
+			// this.chatSocket.onopen = function (e) {
+			// 	console.log('onopen - open');
+			// };
 
-			this.chatSocket.onclose = function (e) {
-				console.log('onClose - chat');
-			};
+			// this.chatSocket.onclose = function (e) {
+			// 	console.log('onClose - chat');
+			// };
 		},
 		sendMessage() {
 			this.chatSocket.send(
@@ -89,7 +77,6 @@ export default {
 </script>
 
 <template>
-	<!-- <ChatView /> -->
 	<section class="pt-6 h-screen w-full">
 		<div class="grid grid-rows-10 h-full">
 			<div v-if="room.participants1 && room.participants2">
@@ -102,7 +89,7 @@ export default {
 					:participant="room.participants2"
 				/>
 			</div>
-			<div class="mt-2 row-span-8 overflow-y-auto pt-10">
+			<div class="mt-10 row-span-8 overflow-y-auto mb-2">
 				<div v-for="message in messages" :key="message.id">
 					<div
 						v-if="message.created_by.id == userStore.user.id"

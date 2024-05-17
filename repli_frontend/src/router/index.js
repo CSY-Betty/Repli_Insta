@@ -44,26 +44,7 @@ const router = createRouter({
 				},
 			],
 		},
-		{
-			path: '/chat-room',
-			name: 'chat-room',
-			component: ChatListView,
-		},
-		{
-			path: '/chat-room/:id',
-			name: 'Chat',
-			component: Chat,
-		},
-		// {
-		// 	path: '/messages',
-		// 	name: 'messages',
-		// 	component: MessagesView,
-		// },
-		// {
-		// 	path: '/messages/:id',
-		// 	name: 'message',
-		// 	component: Message,
-		// },
+
 		{
 			path: '/profile/edit',
 			name: 'editprofile',
