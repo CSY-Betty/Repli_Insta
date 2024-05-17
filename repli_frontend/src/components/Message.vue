@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
 import { RouterLink } from 'vue-router';
-import ChatView from '@/views/ChatListView.vue';
 import ParticipantItem from './ParticipantItem.vue';
 
 export default {
@@ -12,7 +11,7 @@ export default {
 			userStore,
 		};
 	},
-	components: { ChatView, ParticipantItem },
+	components: { ParticipantItem },
 	data() {
 		return {
 			chatSocket: null,

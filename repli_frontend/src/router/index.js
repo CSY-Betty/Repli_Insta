@@ -11,8 +11,6 @@ import PostView from '../views/PostView.vue';
 import EditProfileView from '../views/EditProfileView.vue';
 import EditPasswordView from '../views/EditPasswordView.vue';
 
-import ChatListView from '../views/ChatListView.vue';
-import Chat from '@/components/Chat.vue';
 import Message from '@/components/Message.vue';
 
 const router = createRouter({
