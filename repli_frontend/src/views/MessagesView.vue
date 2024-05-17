@@ -36,9 +36,9 @@ export default {
 };
 </script>
 <template>
-	<main class="w-1/5">
+	<main class="w-56">
 		<article
-			class="col-span-1 justify-center pt-6 overflow-y-auto border-r h-screen"
+			class="col-span-1 justify-center pt-6 overflow-y-auto border-r h-screen w-56"
 		>
 			<div v-for="room in rooms" v-bind:key="room.id">
 				<template v-if="room.participants1.id !== userStore.user.id">
