@@ -9,7 +9,6 @@ from account.models import User
 
 class Message(models.Model):
     body = models.TextField()
-    sent_by = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         User,
@@ -28,8 +27,12 @@ class Message(models.Model):
 
 class Room(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    participants1 = models.ManyToManyField(User, related_name="participants1")
-    participants2 = models.ManyToManyField(User, related_name="participants2")
+    participants1 = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="participants1"
+    )
+    participants2 = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="participants2"
+    )
 
     messages = models.ManyToManyField(Message, blank=True)
 

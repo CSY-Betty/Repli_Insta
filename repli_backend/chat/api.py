@@ -1,113 +1,61 @@
+import json
+
 from django.http import JsonResponse
 
-from rest_framework.decorators import (
-    api_view,
-    authentication_classes,
-    permission_classes,
-)
+from rest_framework.decorators import api_view
 
+from django.db.models import Q
+
+
+from .models import Room
 from account.models import User
 
-from .models import Conversation, ConversationMessage, Room
-
-from .serializers import (
-    ConversationSerializer,
-    ConversationDetailSerializer,
-    ConversationMessageSeriazlizer,
-    RoomSerializer,
-)
+from .serializers import RoomSerializer, MessageSerializer
 
 
-@api_view(["GET"])
-def conversation_list(request):
-    conversations = Conversation.objects.filter(users__in=list([request.user]))
+@api_view(["POST"])
+def create_room(request):
 
-    serializer = ConversationSerializer(conversations, many=True)
+    participants1 = request.user
 
-    return JsonResponse(serializer.data, safe=False)
+    participants2 = request.POST.get("chatId", "")
+    participants2 = User.objects.get(id=participants2)
 
-
-@api_view(["GET"])
-def conversation_detail(request, pk):
-    conversation = Conversation.objects.filter(users__in=list([request.user])).get(
-        pk=pk
+    check = Room.objects.filter(
+        Q(participants1=participants1, participants2=participants2)
+        | Q(participants1=participants2, participants2=participants1)
     )
 
-    serializer = ConversationDetailSerializer(conversation)
-
-    return JsonResponse(serializer.data, safe=False)
-
-
-@api_view(["GET"])
-def conversation_get_or_create(request, user_pk):
-    user = User.objects.get(pk=user_pk)
-
-    conversations = Conversation.objects.filter(users__in=list([request.user])).filter(
-        users__in=list([user])
-    )
-
-    if conversations.exists():
-        conversation = conversations.first()
-
+    if check.exists():
+        room_id = check.first().id
     else:
-        conversation = Conversation.objects.create()
-        conversation.users.add(user, request.user)
-        conversation.save()
+        chat_room = Room.objects.create(
+            participants1=participants1, participants2=participants2
+        )
 
-    serializer = ConversationDetailSerializer(conversation)
+        room_id = chat_room.id
 
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({"room_id": room_id})
 
 
-@api_view(["POST"])
-def conversation_send_message(request, pk):
-    conversation = Conversation.objects.filter(users__in=list([request.user])).get(
-        pk=pk
+@api_view(["GET"])
+def list_rooms(request):
+    rooms = Room.objects.filter(
+        Q(participants1=request.user) | Q(participants2=request.user)
     )
+    print(rooms)
 
-    for user in conversation.users.all():
-        if user != request.user:
-            sent_to = user
+    serializers = RoomSerializer(rooms, many=True)
 
-    conversation_message = ConversationMessage.objects.create(
-        conversation=conversation,
-        body=request.data.get("body"),
-        created_by=request.user,
-        sent_to=sent_to,
-    )
-
-    serializer = ConversationMessageSeriazlizer(conversation_message)
-
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({"rooms": serializers.data})
 
 
-@api_view(["POST"])
-def create_room(request, uuid):
-    name = request.POST.get("name", "")
-    url = request.POST.get("url", "")
+@api_view(["GET"])
+def room(request, room_id):
+    room = Room.objects.get(id=room_id)
+    room_serializer = RoomSerializer(room)
 
-    print(name)
-    print(url)
+    messages = room.messages.all()
+    message_data = MessageSerializer(messages, many=True)
 
-    # Room.objects.create(uuid=uuid, client=name, url=url)
-
-    return JsonResponse({"message": "room created"})
-
-
-@api_view(["Get"])
-def get_room(request):
-    chat_room = Room.objects.filter(client__in=list([request.user]))
-    print("request: ", request)
-    print("request.user: ", request.user)
-
-    print(chat_room)
-
-    serializer = RoomSerializer(chat_room, many=True)
-
-    return JsonResponse(serializer.data, safe=False)
-
-    # return JsonResponse({"message": "room created"})
-
-
-def chatPage():
-    pass
+    return JsonResponse({"room": room_serializer.data, "messages": message_data.data})

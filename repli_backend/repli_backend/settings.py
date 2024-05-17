@@ -31,7 +31,8 @@ SECRET_KEY = "django-insecure-rk^%@$)w*#e%@fz4o8q1^o34#c%!eno(*hi*k@!p%_sx-#l)=6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+
 
 WEBSITE_URL = "http://127.0.0.1:8000"
 
@@ -67,6 +68,7 @@ CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}
 
 INSTALLED_APPS = [
     "daphne",
+    "chat",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -74,7 +76,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "account",
-    "chat",
     "post",
     "search",
     "rest_framework",

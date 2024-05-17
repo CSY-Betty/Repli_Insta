@@ -5,19 +5,7 @@ from . import api
 app_name = "chat"
 
 urlpatterns = [
-    path("", api.conversation_list, name="conversation_list"),
-    path("<uuid:pk>/", api.conversation_detail, name="conversation_detail"),
-    path(
-        "<uuid:pk>/send/",
-        api.conversation_send_message,
-        name="conversation_send_message",
-    ),
-    path(
-        "<uuid:user_pk>/get-or-create/",
-        api.conversation_get_or_create,
-        name="conversation_get_or_create",
-    ),
-    # asgi test
-    path("create-room/<str:uuid>/", api.create_room, name="create_room"),
-    path("get-room/", api.get_room, name="get-room"),
+    path("create-room/", api.create_room, name="create_room"),
+    path("list-rooms/", api.list_rooms, name="list_rooms"),
+    path("room/<str:room_id>/", api.room, name="room"),
 ]
