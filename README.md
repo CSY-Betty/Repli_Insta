@@ -76,7 +76,7 @@ pip install 'uvicorn[standard]'
 
 ### Configuration Files
 
-In server_files directory, are four configuration Files ,below
+In server_files directory, are six configuration Files ,below
 
 #### Nginx Configuration Files
 
