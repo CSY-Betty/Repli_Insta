@@ -39,9 +39,10 @@ export default {
 				});
 		},
 		chats() {
-			this.chatSocket = new WebSocket(
-				`ws://localhost:8000/ws/${this.roomId}/`
-			);
+			const websocketBaseUrl = import.meta.env.VITE_WEBSOCKET_URL;
+			const websocketUrl = `${websocketBaseUrl}${this.roomId}/`;
+
+			this.chatSocket = new WebSocket(websocketUrl);
 
 			// get message from backend
 			this.chatSocket.onmessage = (e) => {
