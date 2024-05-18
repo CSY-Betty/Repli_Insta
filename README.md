@@ -9,6 +9,10 @@ Website: https://planabcd.site/
 
 https://github.com/CSY-Betty/Repli2/assets/84286529/fb84aefe-3e43-4b79-9f55-f702e79e14b2
 
+https://github.com/CSY-Betty/Repli_Insta/assets/84286529/03c24c79-4744-4f39-a54e-d88ca459185c
+
+
+
 ## Technique
 
 ### Frontend
