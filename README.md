@@ -81,14 +81,17 @@ In server_files directory, are six configuration Files ,below
 #### Nginx Configuration Files
 
 nginx_apirepli.conf: This file contains the configuration settings for api django. It is typically located in /etc/nginx/sites-enabled/.
+
 nginx_repli.conf: This file contains the configuration settings for static file. It is also located in /etc/nginx/sites-enabled/.
 
 #### Gunicorn Configuration File
 
 gunicorn_start.conf: This file contains configuration settings for Gunicorn, the ASGI HTTP server for Python web applications, specifically for the application itself. It is located in /repli/venv/bin/.
+
 daphne_start.conf: This file contains configuration settings for Daphne, which is an ASGI server typically used for WebSocket connections. It is located in /repli/venv/bin/.
 
 #### Supervisor Configuration File
 
 supervisor_repli.conf: This file contains configuration settings for Supervisor, a process control system for Unix-like operating systems. It manages the configuration of the entire application deployment. It is located in /etc/supervisor/conf.d/.
+
 repli_daphne.conf: This file manages the configuration related to Daphne's operation within the Supervisor system. It is located in /etc/supervisor/conf.d/.
