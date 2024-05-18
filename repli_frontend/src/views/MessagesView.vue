@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/user';
 import { RouterLink } from 'vue-router';
 
 export default {
-	name: 'MessageListView',
+	name: 'MessagesView',
 	setup() {
 		const userStore = useUserStore();
 		return {
@@ -14,7 +14,7 @@ export default {
 
 	data() {
 		return {
-			rooms: {},
+			rooms: [],
 		};
 	},
 
@@ -26,7 +26,8 @@ export default {
 			axios
 				.get('api/chat/list-rooms/')
 				.then((response) => {
-					this.rooms = response.data.rooms;
+					// this.rooms = response.data.rooms;
+					this.rooms = [...response.data.rooms];
 				})
 				.catch((error) => {
 					console.log('error:', error);
@@ -44,7 +45,7 @@ export default {
 				<template v-if="room.participants1.id !== userStore.user.id">
 					<RouterLink
 						:to="{
-							name: 'messages',
+							name: 'message',
 							params: { id: room.id },
 						}"
 						class="px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black focus:bg-gray-100"
@@ -61,7 +62,7 @@ export default {
 				<template v-if="room.participants2.id !== userStore.user.id">
 					<RouterLink
 						:to="{
-							name: 'messages',
+							name: 'message',
 							params: { id: room.id },
 						}"
 						class="px-10 py-2 w-full flex items-center cursor-pointer hover:bg-gray-50 bg-white text-black focus:bg-gray-100"

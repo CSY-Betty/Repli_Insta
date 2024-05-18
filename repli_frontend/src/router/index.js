@@ -26,18 +26,40 @@ const router = createRouter({
 			name: 'explore',
 			component: ExploreView,
 		},
+		// {
+		// 	path: '/messages',
+		// 	component: MessagesView,
+		// },
+
+		// {
+		// 	path: '/messages/:id',
+		// 	component: MessagesView,
+		// 	children: [
+		// 		{
+		// 			path: '',
+		// 			name: 'messages',
+		// 			component: Message,
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	path: '/messages',
+		// 	name: 'messages',
+		// 	component: MessagesView,
+		// },
+		// {
+		// 	path: '/messages/:id',
+		// 	name: 'message',
+		// 	component: Message,
+		// },
+
 		{
 			path: '/messages',
 			component: MessagesView,
-		},
-
-		{
-			path: '/messages/:id',
-			component: MessagesView,
 			children: [
 				{
-					path: '',
-					name: 'messages',
+					path: ':id',
+					name: 'message',
 					component: Message,
 				},
 			],

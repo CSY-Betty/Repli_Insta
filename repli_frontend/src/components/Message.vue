@@ -1,10 +1,138 @@
 <script>
 import axios from 'axios';
 import { useUserStore } from '@/stores/user';
+import ParticipantItem from './ParticipantItem.vue';
+
+export default {
+	name: 'Message',
+	setup() {
+		const userStore = useUserStore();
+		return {
+			userStore,
+		};
+	},
+	components: { ParticipantItem },
+	data() {
+		return {
+			chatSocket: null,
+			newMessage: '',
+			activeConversation: [],
+			roomId: null,
+			room: {},
+			messages: [],
+		};
+	},
+	watch: {
+		'$route.params.id': {
+			handler(newId) {
+				this.roomId = newId;
+				this.initializeChat();
+			},
+			immediate: true,
+		},
+	},
+	methods: {
+		initializeChat() {
+			this.getMessages();
+			this.setupWebSocket();
+		},
+		getMessages() {
+			axios
+				.get(`api/chat/room/${this.roomId}`)
+				.then((response) => {
+					this.messages = response.data.messages;
+					this.room = response.data.room;
+					this.$nextTick(() => {
+						this.scrollToBottom();
+					});
+				})
+				.catch((error) => {
+					console.log('error:', error);
+				});
+		},
+		setupWebSocket() {
+			if (this.chatSocket) {
+				this.chatSocket.close();
+			}
+			const websocketBaseUrl = import.meta.env.VITE_WEBSOCKET_URL;
+			const websocketUrl = `${websocketBaseUrl}${this.roomId}/`;
+
+			this.chatSocket = new WebSocket(websocketUrl);
+
+			this.chatSocket.onmessage = (e) => {
+				const newMessage = JSON.parse(e.data);
+				this.activeConversation.push(newMessage);
+				this.$nextTick(() => {
+					this.scrollToBottom();
+				});
+			};
+
+			this.chatSocket.onerror = (error) => {
+				console.error('WebSocket error: ', error);
+			};
+
+			this.chatSocket.onopen = () => {
+				// console.log('WebSocket connection opened');
+			};
+
+			this.chatSocket.onclose = (event) => {
+				// console.log('WebSocket connection closed', event);
+				if (event.code !== 1000) {
+					console.error(
+						'WebSocket closed unexpectedly. Reconnecting...'
+					);
+					setTimeout(this.setupWebSocket, 3000);
+				}
+			};
+		},
+		sendMessage() {
+			if (this.chatSocket.readyState === WebSocket.OPEN) {
+				this.chatSocket.send(
+					JSON.stringify({
+						type: 'message',
+						message: this.newMessage,
+						name: this.userStore.user.id,
+					})
+				);
+				this.newMessage = '';
+				this.$nextTick(() => {
+					this.scrollToBottom();
+				});
+			} else {
+				console.error('WebSocket is not open. Message not sent');
+			}
+		},
+		scrollToBottom() {
+			const container = this.$refs.messagesContainer;
+			container.scrollTop = container.scrollHeight;
+		},
+		handleKeyUp(event) {
+			if (event.key === 'Enter' && !event.shiftKey) {
+				event.preventDefault();
+				this.sendMessage();
+			}
+		},
+	},
+	beforeRouteUpdate(to, from, next) {
+		this.roomId = to.params.id;
+		this.initializeChat();
+		next();
+	},
+	mounted() {
+		this.roomId = this.$route.params.id;
+		this.initializeChat();
+	},
+};
+</script>
+
+<!-- <script>
+import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 import { RouterLink } from 'vue-router';
 import ParticipantItem from './ParticipantItem.vue';
 
 export default {
+	name: 'Message',
 	setup() {
 		const userStore = useUserStore();
 		return {
@@ -22,11 +150,23 @@ export default {
 			messages: [],
 		};
 	},
+
 	mounted() {
-		this.chats();
-		this.getMessages();
+		this.initializeChat();
+		// this.chats();
+		// this.getMessages();
+	},
+	beforeRouteUpdate(to, from, next) {
+		this.initializeChat();
+		next();
 	},
 	methods: {
+		initializeChat() {
+			this.roomId = this.$route.params.id;
+			this.getMessages();
+			this.chats();
+		},
+
 		getMessages() {
 			axios
 				.get(`api/chat/room/${this.roomId}`)
@@ -74,7 +214,7 @@ export default {
 		},
 	},
 };
-</script>
+</script> -->
 
 <template>
 	<section class="pt-6 h-screen w-full">
@@ -89,7 +229,10 @@ export default {
 					:participant="room.participants2"
 				/>
 			</div>
-			<div class="mt-10 row-span-8 overflow-y-auto mb-2">
+			<div
+				ref="messagesContainer"
+				class="mt-10 row-span-8 overflow-y-auto mb-2"
+			>
 				<div v-for="message in messages" :key="message.id">
 					<div
 						v-if="message.created_by.id == userStore.user.id"
@@ -180,6 +323,7 @@ export default {
 							type="text"
 							placeholder="Message..."
 							v-model="newMessage"
+							@keyup="handleKeyUp"
 						></textarea>
 						<button
 							class="flex-shrink-0 bg-rose-400 hover:bg-rose-500 border-rose-400 hover:border-rose-500 text-sm border-4 text-white py-1 px-2 rounded-full"
