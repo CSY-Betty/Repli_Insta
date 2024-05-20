@@ -71,6 +71,8 @@ AWS_S3_CUSTOM_DOMAIN=
 ```shell
 pip install -r requirements.txt
 pip install gunicorn
+
+# install web sockets
 pip install 'uvicorn[standard]'
 ```
 
