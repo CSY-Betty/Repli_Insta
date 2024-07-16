@@ -29,7 +29,7 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 s3transfer==0.10.1
 service-identity==24.1.0
-setuptools==69.5.1
+setuptools==70.0.0
 six==1.16.0
 sqlparse==0.5.0
 Twisted==24.3.0
